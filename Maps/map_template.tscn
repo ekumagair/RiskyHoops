@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://crbx0u56m2f3r"]
+
+[ext_resource type="Script" uid="uid://cjndkpe628wa" path="res://Scripts/Character.gd" id="1_8gieq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mq4ix"]
+
+[sub_resource type="Sky" id="Sky_8gieq"]
+sky_material = SubResource("ProceduralSkyMaterial_mq4ix")
+
+[sub_resource type="Environment" id="Environment_sqj7u"]
+background_mode = 2
+sky = SubResource("Sky_8gieq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_41u4d"]
+size = Vector2(28, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mq4ix"]
+size = Vector3(28, 1, 15)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mq4ix"]
+size = Vector2(56, 30)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8gieq"]
+albedo_color = Color(0.446777, 0.44677705, 0.44677705, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mq4ix"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8gieq"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8gieq"]
+size = Vector2(1.2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq4ix"]
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8gieq"]
+height = 0.1
+radial_segments = 16
+
+[node name="MapTemplate" type="Node3D" unique_id=418248219]
+
+[node name="Settings" type="Node3D" parent="." unique_id=271052129]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Settings" unique_id=394146146]
+environment = SubResource("Environment_sqj7u")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Settings" unique_id=1173126229]
+transform = Transform3D(1, 0, 0, 0, -0.021134377, 0.9997767, 0, -0.9997767, -0.021134377, 0, 0, 30)
+shadow_enabled = true
+
+[node name="Environment" type="Node3D" parent="." unique_id=702086546]
+
+[node name="Court" type="MeshInstance3D" parent="Environment" unique_id=456507048]
+mesh = SubResource("PlaneMesh_41u4d")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Court" unique_id=743903310]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Court/StaticBody3D" unique_id=1091503482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_mq4ix")
+
+[node name="OutOfBounds" type="MeshInstance3D" parent="Environment" unique_id=234743759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = SubResource("PlaneMesh_mq4ix")
+surface_material_override/0 = SubResource("StandardMaterial3D_8gieq")
+
+[node name="Objects" type="Node3D" parent="." unique_id=1818688397]
+
+[node name="TestCube" type="MeshInstance3D" parent="Objects" unique_id=680699108]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.133908, 0)
+visible = false
+mesh = SubResource("BoxMesh_mq4ix")
+
+[node name="Character" type="CharacterBody3D" parent="Objects" unique_id=1305850012]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_8gieq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/Character" unique_id=1243386105]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_8gieq")
+
+[node name="Model" type="Node3D" parent="Objects/Character" unique_id=1587079054]
+
+[node name="Main" type="MeshInstance3D" parent="Objects/Character/Model" unique_id=516848374]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.0133829, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("PlaneMesh_8gieq")
+surface_material_override/0 = SubResource("StandardMaterial3D_mq4ix")
+
+[node name="Shadow" type="MeshInstance3D" parent="Objects/Character/Model/Main" unique_id=1032799639]
+transform = Transform3D(1, 0, 0, 0, -4.3711378e-08, -0.9999999, 0, 0.9999999, -4.3711378e-08, 0, 0, -1)
+cast_shadow = 3
+mesh = SubResource("CylinderMesh_8gieq")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=292667138]
+transform = Transform3D(1, 0, 0, 0, 0.9396927, 0.34202015, 0, -0.34202015, 0.9396927, -7.5199623, 8.158176, 19.875336)
+fov = 30.0
+size = 14.812
