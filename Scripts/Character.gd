@@ -1,3 +1,4 @@
+class_name Character
 extends CharacterBody3D
 
 @export var playerId : int = 0
@@ -5,6 +6,10 @@ extends CharacterBody3D
 @export var moveSpeed : float = 5.0
 @export var jumpVelocity : float = 10.0
 @export var fallSpeed : float = 15.0
+
+@onready var ballHold : Node3D = $BallHold
+
+var heldBall : Ball
 
 func _physics_process(delta : float) -> void:
 	if playerId > -1:
@@ -40,3 +45,14 @@ func get_horizontal_speed_factor() -> float:
 		toReturn *= 0.5
 	
 	return toReturn
+
+func _on_ball_area_entered(area : Area3D) -> void:
+	hold_ball(area.get_parent())
+
+func hold_ball(ball : Ball):
+	ball.held = true
+	ball.reparent(ballHold)
+	ball.position = Vector3(0, 0, 0.01)
+
+func release_ball():
+	heldBall.reparent(get_parent())

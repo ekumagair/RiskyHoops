@@ -72,6 +72,7 @@ attack_p1={
 
 3d_physics/layer_1="Solid"
 3d_physics/layer_2="Character"
+3d_physics/layer_3="Ball"
 
 [physics]
 

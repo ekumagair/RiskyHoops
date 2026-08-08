@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bqaby455a8sra"]
+
+[ext_resource type="Texture2D" uid="uid://c2ftvcdkrbj50" path="res://Sprites/Objects/Ball/Ball1.png" id="1_se7ib"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_se7ib")
+texture_filter = 0
+billboard_keep_scale = true
