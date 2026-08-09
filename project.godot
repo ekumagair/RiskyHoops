@@ -15,19 +15,25 @@ run/main_scene="uid://crbx0u56m2f3r"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+global="*uid://bqm2cbrrljlto"
+
 [display]
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
+window/size/mode=4
 window/size/resizable=false
 window/size/borderless=true
+window/stretch/mode="viewport"
 
 [file_customization]
 
 folder_colors={
 "res://Maps/": "gray",
-"res://Scripts/": "green"
+"res://Scripts/": "green",
+"res://Themes/": "pink"
 }
 
 [input]
@@ -73,6 +79,7 @@ attack_p1={
 3d_physics/layer_1="Solid"
 3d_physics/layer_2="Character"
 3d_physics/layer_3="Ball"
+3d_physics/layer_4="Basket"
 
 [physics]
 

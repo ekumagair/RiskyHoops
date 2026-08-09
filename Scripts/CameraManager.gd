@@ -31,5 +31,6 @@ func camera_follow(delta) -> void:
 		targetPos.y = cameraDefaultPos.y * 1.8
 	
 	targetPos.z = camera.global_position.z
+	targetPos.x = clampf(targetPos.x, -7.5, 7.5)
 	
 	camera.global_position = camera.global_position.move_toward(targetPos, cameraFollowSpeed * delta)

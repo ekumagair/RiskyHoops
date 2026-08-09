@@ -10,6 +10,14 @@ extends CharacterBody3D
 @onready var ballHold : Node3D = $BallHold
 
 var heldBall : Ball
+var charDirection : Vector3 = Vector3(1, 1, 0)
+var charDirectionPressed : Vector3 = Vector3(0, 0, 0)
+
+func _process(delta : float) -> void:
+	if playerId > -1:
+		player_actions_process(delta)
+	
+	update_direction()
 
 func _physics_process(delta : float) -> void:
 	if playerId > -1:
@@ -36,7 +44,30 @@ func move_player_process(delta : float) -> void:
 	if Input.is_action_just_pressed("jump_p" + idStr) and is_on_floor():
 		velocity.y = jumpVelocity
 	
+	if direction.x != 0:
+		charDirectionPressed.x += delta
+	elif charDirectionPressed.x > 0:
+		charDirectionPressed.x = 0
+	
+	if direction.z != 0:
+		charDirectionPressed.z += delta
+	elif charDirectionPressed.z > 0:
+		charDirectionPressed.z = 0
+	
 	move_and_slide()
+
+func player_actions_process(delta : float) -> void:
+	var idStr : String = str(playerId + 1)
+	
+	if Input.is_action_just_pressed("ball_p" + idStr) and heldBall != null:
+		if is_on_floor():
+			release_ball(Vector3(10 * charDirection.x, 10, 0))
+		else:
+			var force : Vector3 = get_release_ball_force_towards(global.gManager.get_basket(0).ballTarget.global_position)
+			force.x *= 1 if charDirectionPressed.x > 0 else 0
+			force.z *= 1 if charDirectionPressed.z > 0 else 0
+			
+			release_ball(Vector3(1.5 * force.x * charDirection.x, 10, 1.5 * force.z * charDirection.z))
 
 func get_horizontal_speed_factor() -> float:
 	var toReturn : float = 1.0
@@ -46,13 +77,55 @@ func get_horizontal_speed_factor() -> float:
 	
 	return toReturn
 
+func update_direction():
+	if velocity.x > 0:
+		charDirection.x = 1
+	elif velocity.x < 0:
+		charDirection.x = -1
+	
+	if velocity.y > 0:
+		charDirection.y = 1
+	elif velocity.y < 0:
+		charDirection.y = -1
+	
+	if velocity.z > 0:
+		charDirection.z = 1
+	elif velocity.z < 0:
+		charDirection.z = -1
+
 func _on_ball_area_entered(area : Area3D) -> void:
 	hold_ball(area.get_parent())
 
 func hold_ball(ball : Ball):
+	if heldBall != null or ball.forbidCharacter == self or ball.held or ball.scoring:
+		return
+	
 	ball.held = true
 	ball.reparent(ballHold)
-	ball.position = Vector3(0, 0, 0.01)
+	ball.position = Vector3(0, 1, 0.01)
+	heldBall = ball
 
-func release_ball():
-	heldBall.reparent(get_parent())
+func release_ball(newVelocity : Vector3):
+	if heldBall == null:
+		return
+	
+	heldBall.forbidCharacter = self
+	heldBall.held = false
+	heldBall.reparent(global.gManager.environment)
+	heldBall.position = heldBall.global_position
+	heldBall.velocity = newVelocity
+	heldBall = null
+
+func get_release_ball_force_towards(targetPos : Vector3) -> Vector3:
+	var toReturn : Vector3
+	
+	toReturn.x = targetPos.x - global_position.x
+	toReturn.z = targetPos.z - global_position.z
+	toReturn.z *= 0.75
+	
+	if abs(toReturn.x) > 0 and abs(toReturn.x) < 4:
+		toReturn.x = 4
+	if abs(toReturn.z) > 0 and abs(toReturn.z) < 2:
+		toReturn.z = 2
+	
+	return abs(toReturn)
