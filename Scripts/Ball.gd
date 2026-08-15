@@ -1,7 +1,7 @@
 class_name Ball
 extends Node3D
 
-@onready var floorRayCast : RayCast3D = $FloorRayCast
+@onready var floorArea : Area3D = $FloorArea
 @onready var horizontalRayCast : RayCast3D = $HorizontalRayCast
 
 var held : bool = false
@@ -11,7 +11,7 @@ var velocity : Vector3 = Vector3(0, 10, 0)
 var fallSpeed : float = 15.0
 var fallSpeedBounceFactor : float = 0.6
 var horizontalSpeedLoss : float = 4.0
-var horizontalBounceFactor : float = 0.9
+var horizontalBounceFactor : float = 0.8
 var forbidCharacter : Character
 var ballDirection : Vector3 = Vector3(0, 1, 0)
 
@@ -55,7 +55,10 @@ func horizontal_velocity(delta : float):
 			else:
 				velocity.x = -3
 		
-		velocity.x *= 1.001
+		if velocity.y == 0:
+			velocity.y = randf_range(1, 3)
+		
+		velocity.x *= 1.01
 		return
 	
 	if velocity.x > 0.05:
@@ -82,7 +85,7 @@ func horizontal_bounce(delta : float):
 			velocity.z *= horizontalBounceFactor * -1
 
 func is_on_floor():
-	return floorRayCast.is_colliding()
+	return floorArea.has_overlapping_bodies()
 
 func is_touching_wall():
 	return horizontalRayCast.is_colliding()

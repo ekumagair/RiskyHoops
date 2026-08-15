@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://c4sy8aqxdflnh"]
+
+[ext_resource type="Theme" uid="uid://bdp8nux7uxbd6" path="res://Themes/main_theme.tres" id="1_3ut34"]
+[ext_resource type="Script" uid="uid://bo1ffd44eukmx" path="res://Scripts/UI/ButtonComplement.gd" id="2_jdjhw"]
+
+[node name="ButtonGeneric" type="Button" unique_id=398400624]
+offset_right = 456.0
+offset_bottom = 40.0
+theme = ExtResource("1_3ut34")
+theme_override_constants/outline_size = 32
+text = "BUTTON GENERIC"
+flat = true
+alignment = 0
+script = ExtResource("2_jdjhw")

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://c5myae0fhujen"]
+
+[ext_resource type="Script" uid="uid://cjndkpe628wa" path="res://Scripts/Character.gd" id="1_7iube"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_8gieq"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_8gieq"]
+size = Vector2(1.2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq4ix"]
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_8gieq"]
+height = 0.1
+radial_segments = 16
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_41u4d"]
+size = Vector3(1, 1.5, 1)
+
+[node name="Character" type="CharacterBody3D" unique_id=2078396322 groups=["characters"]]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_7iube")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=610986061]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_8gieq")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Model" type="Node3D" parent="." unique_id=1045958]
+
+[node name="Main" type="MeshInstance3D" parent="Model" unique_id=1372282206]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.0133829, 0)
+cast_shadow = 0
+gi_mode = 0
+mesh = SubResource("PlaneMesh_8gieq")
+surface_material_override/0 = SubResource("StandardMaterial3D_mq4ix")
+
+[node name="Shadow" type="MeshInstance3D" parent="Model/Main" unique_id=1846080430]
+transform = Transform3D(1, 0, 0, 0, -4.3711378e-08, -0.9999999, 0, 0.9999999, -4.3711378e-08, 0, 0, -1)
+cast_shadow = 3
+mesh = SubResource("CylinderMesh_8gieq")
+
+[node name="BallHold" type="Node3D" parent="." unique_id=1078382570]
+
+[node name="Area3D" type="Area3D" parent="BallHold" unique_id=1532488307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BallHold/Area3D" unique_id=1770047500]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+shape = SubResource("BoxShape3D_41u4d")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[connection signal="area_entered" from="BallHold/Area3D" to="." method="_on_ball_area_entered"]

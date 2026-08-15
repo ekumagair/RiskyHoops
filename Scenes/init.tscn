@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cyxuv6meilqmj"]
+
+[ext_resource type="Script" uid="uid://cy1qqbh3ybvku" path="res://Scripts/Init.gd" id="1_c8pa8"]
+[ext_resource type="Texture2D" uid="uid://dndb318kylgpd" path="res://Sprites/WhiteSquare.png" id="2_3xpad"]
+
+[node name="Init" type="Node" unique_id=459869438]
+script = ExtResource("1_c8pa8")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1032124819]
+
+[node name="BG" type="TextureRect" parent="CanvasLayer" unique_id=1718852836]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_3xpad")

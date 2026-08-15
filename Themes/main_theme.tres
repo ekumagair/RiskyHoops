@@ -3,5 +3,7 @@
 [ext_resource type="FontFile" uid="uid://bgioctly6y63s" path="res://Fonts/m04b.TTF" id="1_8cjo3"]
 
 [resource]
+Button/font_sizes/font_size = 32
+Button/fonts/font = ExtResource("1_8cjo3")
 Label/font_sizes/font_size = 32
 Label/fonts/font = ExtResource("1_8cjo3")

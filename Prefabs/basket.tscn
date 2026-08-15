@@ -24,15 +24,14 @@ ring_segments = 16
 [sub_resource type="BoxMesh" id="BoxMesh_ym8j8"]
 size = Vector3(0.3, 1, 2)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_rbbdn"]
-radius = 0.3
+[sub_resource type="BoxShape3D" id="BoxShape3D_1qi48"]
+size = Vector3(2, 1.4, 2)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_5avrb"]
 size = Vector3(1, 0.6, 1.5)
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_1qi48"]
-height = 1.0
-radius = 0.3
+[sub_resource type="BoxShape3D" id="BoxShape3D_rn0sa"]
+size = Vector3(0.2, 0.5, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_rbbdn"]
 size = Vector3(3, 3, 3)
@@ -66,8 +65,8 @@ mesh = SubResource("BoxMesh_ym8j8")
 [node name="StaticBody3D" type="StaticBody3D" parent="Model" unique_id=1827573015]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Model/StaticBody3D" unique_id=992041096]
-transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 2, 4.5, 0)
-shape = SubResource("CylinderShape3D_rbbdn")
+transform = Transform3D(1, 0, 0, 0, 0.99999994, 0, 0, 0, 0.99999994, 1.2, 4.3, 0)
+shape = SubResource("BoxShape3D_1qi48")
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
 [node name="Target" type="Node3D" parent="." unique_id=1535837542]
@@ -85,8 +84,8 @@ debug_color = Color(0.9490196, 0, 0.57254905, 1)
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Target/StaticBody3D" unique_id=1012942340]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0.7, -0.455, 0)
-shape = SubResource("CylinderShape3D_1qi48")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, -0.455, 0)
+shape = SubResource("BoxShape3D_rn0sa")
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
 [node name="Slippery" type="Area3D" parent="." unique_id=1823456147]

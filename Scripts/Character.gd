@@ -76,6 +76,10 @@ func player_actions_process(delta : float) -> void:
 			force.z *= 1 if charDirectionPressed.z > 0 and is_facing_position(originPos.z, charDirection.z, targetPos.z) else 0
 			force.y += 10
 			
+			if force.x > 0 and force.z > 0:
+				force.x *= 0.8
+				force.z *= 1.2
+			
 			release_ball(Vector3(1.5 * force.x * charDirection.x, force.y, 1.5 * force.z * charDirection.z))
 
 func get_horizontal_speed_factor() -> float:
@@ -120,7 +124,7 @@ func release_ball(newVelocity : Vector3):
 	
 	heldBall.forbidCharacter = self
 	heldBall.held = false
-	heldBall.reparent(global.gManager.environment)
+	heldBall.reparent(global.gManager.objects)
 	heldBall.position = heldBall.global_position
 	heldBall.velocity = newVelocity
 	heldBall = null

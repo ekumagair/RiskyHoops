@@ -1,6 +1,9 @@
 class_name UIScreen
 extends Control
 
+@export var defaultColor : Color = Color(1, 1, 1, 1)
+@export var defaultButton : Button
+
 @onready var animPlayer : AnimationPlayer = get_node_or_null("AnimationPlayer")
 @onready var inputRoot : Control = get_node_or_null("Input")
 
@@ -11,8 +14,18 @@ signal on_open_finish
 signal on_close
 signal on_close_finish
 
+func reset():
+	if animPlayer != null:
+		animPlayer.play("RESET")
+	
+	modulate = defaultColor
+
 func open():
+	reset()
 	show()
+	release_focus()
+	
+	isOpen = false
 	on_open.emit()
 	
 	if animPlayer != null:
@@ -21,10 +34,18 @@ func open():
 	
 	isOpen = true
 	on_open_finish.emit()
+	
+	if defaultButton != null:
+		global.give_focus_to(defaultButton)
 
 func close():
+	if !isOpen:
+		return
+	
 	isOpen = false
 	on_close.emit()
+	
+	release_focus()
 	
 	if animPlayer != null:
 		animPlayer.play("close")

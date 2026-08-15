@@ -11,9 +11,11 @@ config_version=5
 [application]
 
 config/name="Risky Hoops"
-run/main_scene="uid://crbx0u56m2f3r"
+config/version="1.0"
+run/main_scene="uid://cyxuv6meilqmj"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+config/icon="uid://bf3xpidoapb53"
 
 [autoload]
 
@@ -37,6 +39,10 @@ folder_colors={
 "res://Scripts/": "green",
 "res://Themes/": "pink"
 }
+
+[global_group]
+
+characters="Characters"
 
 [input]
 

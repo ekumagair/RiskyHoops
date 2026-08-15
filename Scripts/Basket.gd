@@ -11,6 +11,8 @@ func _on_ball_area_entered(area: Area3D) -> void:
 	if ball.held or ball.scoring or ball.velocity.y > 0:
 		return
 	
+	global.gManager.release_ball(ball)
+	
 	ball.held = false
 	ball.scoring = true
 	ball.velocity = Vector3(0, 0, 0)

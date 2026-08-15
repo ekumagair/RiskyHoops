@@ -11,6 +11,7 @@ func base_ready() -> void:
 	global.gManager = null
 	
 	for i in len(screens):
+		screens[i].reset()
 		screens[i].hide()
 	
 	go_to_screen(screenDefault)
@@ -18,5 +19,8 @@ func base_ready() -> void:
 func go_to_screen(sName : String) -> void:
 	for i in len(screens):
 		if screens[i].name == sName:
+			screens[i].reset()
 			screens[i].open()
 			screenCurrent = screens[i]
+		else:
+			screens[i].hide()
