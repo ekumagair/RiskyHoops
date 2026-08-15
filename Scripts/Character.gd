@@ -61,13 +61,22 @@ func player_actions_process(delta : float) -> void:
 	
 	if Input.is_action_just_pressed("ball_p" + idStr) and heldBall != null:
 		if is_on_floor():
-			release_ball(Vector3(10 * charDirection.x, 10, 0))
-		else:
-			var force : Vector3 = get_release_ball_force_towards(global.gManager.get_basket(0).ballTarget.global_position)
+			var force : Vector3 = Vector3(9 * charDirection.x, 8, 9 * charDirection.z)
 			force.x *= 1 if charDirectionPressed.x > 0 else 0
 			force.z *= 1 if charDirectionPressed.z > 0 else 0
 			
-			release_ball(Vector3(1.5 * force.x * charDirection.x, 10, 1.5 * force.z * charDirection.z))
+			release_ball(force)
+		else:
+			var targetBasket : int = global.get_opposite_team(team)
+			var originPos : Vector3 = global_position
+			var targetPos : Vector3 = global.gManager.get_basket(targetBasket).ballTarget.global_position
+			
+			var force : Vector3 = get_release_ball_force_towards(targetPos)
+			force.x *= 1 if charDirectionPressed.x > 0 and is_facing_position(originPos.x, charDirection.x, targetPos.x) else 0
+			force.z *= 1 if charDirectionPressed.z > 0 and is_facing_position(originPos.z, charDirection.z, targetPos.z) else 0
+			force.y += 10
+			
+			release_ball(Vector3(1.5 * force.x * charDirection.x, force.y, 1.5 * force.z * charDirection.z))
 
 func get_horizontal_speed_factor() -> float:
 	var toReturn : float = 1.0
@@ -125,7 +134,16 @@ func get_release_ball_force_towards(targetPos : Vector3) -> Vector3:
 	
 	if abs(toReturn.x) > 0 and abs(toReturn.x) < 4:
 		toReturn.x = 4
-	if abs(toReturn.z) > 0 and abs(toReturn.z) < 2:
-		toReturn.z = 2
+	if abs(toReturn.z) > 0 and abs(toReturn.z) < 3:
+		toReturn.z = 3
 	
 	return abs(toReturn)
+
+func is_facing_position(originPos : float, originDir : float, targetPos : float) -> bool:
+	if targetPos < originPos and originDir < 0:
+		return true
+	if targetPos > originPos and originDir > 0:
+		return true
+	
+	return false
+	

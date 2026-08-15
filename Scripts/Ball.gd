@@ -6,6 +6,7 @@ extends Node3D
 
 var held : bool = false
 var scoring : bool = false
+var slippery : bool = false
 var velocity : Vector3 = Vector3(0, 10, 0)
 var fallSpeed : float = 15.0
 var fallSpeedBounceFactor : float = 0.6
@@ -19,6 +20,8 @@ func _process(delta : float) -> void:
 
 func _physics_process(delta : float) -> void:
 	if is_on_floor() and forbidCharacter != null:
+		forbidCharacter = null
+	if scoring and forbidCharacter != null:
 		forbidCharacter = null
 	if is_on_floor() and scoring:
 		held = false
@@ -45,6 +48,16 @@ func gravity(delta : float):
 		velocity.y = 0
 
 func horizontal_velocity(delta : float):
+	if slippery and is_on_floor():
+		if velocity.x == 0:
+			if randi_range(0, 1) == 0:
+				velocity.x = 3
+			else:
+				velocity.x = -3
+		
+		velocity.x *= 1.001
+		return
+	
 	if velocity.x > 0.05:
 		velocity.x -= horizontalSpeedLoss * delta
 	elif velocity.x < -0.05:
@@ -91,3 +104,9 @@ func update_direction():
 		ballDirection.z = -1
 	
 	horizontalRayCast.target_position = Vector3(ballDirection.x * 0.3, 0, ballDirection.z * 0.3)
+
+func _on_slippery_area_entered(area: Area3D) -> void:
+	slippery = true
+
+func _on_slippery_area_exited(area: Area3D) -> void:
+	slippery = false

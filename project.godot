@@ -32,6 +32,8 @@ window/stretch/mode="viewport"
 
 folder_colors={
 "res://Maps/": "gray",
+"res://Prefabs/": "blue",
+"res://Prefabs/UI/": "red",
 "res://Scripts/": "green",
 "res://Themes/": "pink"
 }
@@ -80,6 +82,7 @@ attack_p1={
 3d_physics/layer_2="Character"
 3d_physics/layer_3="Ball"
 3d_physics/layer_4="Basket"
+3d_physics/layer_5="Slippery Area"
 
 [physics]
 
