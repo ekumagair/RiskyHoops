@@ -19,7 +19,6 @@ size = Vector3(1, 1.5, 1)
 
 [node name="Character" type="CharacterBody3D" unique_id=2078396322 groups=["characters"]]
 collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_7iube")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=610986061]

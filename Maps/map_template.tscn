@@ -47,9 +47,10 @@ albedo_color = Color(0, 0, 1, 1)
 
 [node name="MapTemplate" type="Node3D" unique_id=418248219]
 
-[node name="GameManager" type="Node" parent="." unique_id=248453189 node_paths=PackedStringArray("baskets")]
+[node name="GameManager" type="Node" parent="." unique_id=248453189 node_paths=PackedStringArray("baskets", "ball")]
 script = ExtResource("1_416mt")
 baskets = [NodePath("../Environment/Baskets/Basket"), NodePath("../Environment/Baskets/Basket2")]
+ball = NodePath("../Objects/Ball")
 
 [node name="GameCanvas" type="CanvasLayer" parent="." unique_id=2129462732]
 
@@ -177,6 +178,20 @@ team = 1
 [node name="Objects" type="Node3D" parent="." unique_id=1818688397]
 
 [node name="Character" parent="Objects" unique_id=2078396322 instance=ExtResource("3_416mt")]
+
+[node name="Character2" parent="Objects" unique_id=368567721 instance=ExtResource("3_416mt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)
+playerId = -1
+
+[node name="Character3" parent="Objects" unique_id=1145605187 instance=ExtResource("3_416mt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, -3)
+playerId = -1
+team = 1
+
+[node name="Character4" parent="Objects" unique_id=2091365840 instance=ExtResource("3_416mt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+playerId = -1
+team = 1
 
 [node name="Ball" parent="Objects" unique_id=415838134 instance=ExtResource("4_fqdin")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)

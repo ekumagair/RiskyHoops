@@ -33,6 +33,7 @@ window/stretch/mode="viewport"
 [file_customization]
 
 folder_colors={
+"res://Audio/": "yellow",
 "res://Maps/": "gray",
 "res://Prefabs/": "blue",
 "res://Prefabs/UI/": "red",

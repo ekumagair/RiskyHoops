@@ -5,6 +5,7 @@ extends Node3D
 @onready var horizontalRayCast : RayCast3D = $HorizontalRayCast
 
 var held : bool = false
+var holder : Character
 var scoring : bool = false
 var slippery : bool = false
 var velocity : Vector3 = Vector3(0, 10, 0)
@@ -50,7 +51,7 @@ func gravity(delta : float):
 func horizontal_velocity(delta : float):
 	if slippery and is_on_floor():
 		if velocity.x == 0:
-			if randi_range(0, 1) == 0:
+			if global_position.x < 0:
 				velocity.x = 3
 			else:
 				velocity.x = -3
