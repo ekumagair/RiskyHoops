@@ -17,9 +17,14 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="uid://bf3xpidoapb53"
 
+[audio]
+
+buses/default_bus_layout="uid://0fgknrsufhcs"
+
 [autoload]
 
 global="*uid://bqm2cbrrljlto"
+audio="*uid://m07ra2bi8cin"
 
 [display]
 

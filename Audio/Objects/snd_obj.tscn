@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://d1nnwd180bxxk"]
+
+[ext_resource type="Script" uid="uid://b5qgj6idq2vda" path="res://Scripts/AudioObject.gd" id="1_p1l82"]
+
+[node name="SndObj" type="AudioStreamPlayer3D" unique_id=1005143247]
+max_db = 0.0
+bus = &"SFX"
+script = ExtResource("1_p1l82")

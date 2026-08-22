@@ -101,6 +101,7 @@ theme = ExtResource("1_48xlc")
 script = ExtResource("2_opfnp")
 screens = [NodePath("TitleScreen"), NodePath("Main")]
 screenDefault = "TitleScreen"
+songsDefault = Array[int]([1, 2, 3])
 
 [node name="Background" type="TextureRect" parent="." unique_id=812201504]
 self_modulate = Color(0, 0, 0, 1)
@@ -258,7 +259,7 @@ grow_vertical = 2
 [node name="ButtonGeneric" parent="Main/Input/VBoxContainer" unique_id=398400624 instance=ExtResource("8_yhxw7")]
 layout_mode = 2
 focus_neighbor_bottom = NodePath("../ButtonGeneric2")
-text = "NEW GAME"
+text = "NEW MATCH"
 
 [node name="ButtonGeneric2" parent="Main/Input/VBoxContainer" unique_id=1457598255 instance=ExtResource("8_yhxw7")]
 layout_mode = 2
@@ -269,8 +270,8 @@ text = "QUIT GAME"
 libraries/ = SubResource("AnimationLibrary_t1dhk")
 
 [connection signal="on_close" from="TitleScreen" to="." method="go_to_main"]
-[connection signal="on_open" from="TitleScreen" to="TitleScreen" method="hide_input_node"]
 [connection signal="on_open" from="TitleScreen" to="TitleScreen" method="on_title_open"]
+[connection signal="on_open" from="TitleScreen" to="TitleScreen" method="hide_input_node"]
 [connection signal="on_open_finish" from="TitleScreen" to="TitleScreen" method="show_input_node"]
 [connection signal="visibility_changed" from="TitleScreen" to="TitleScreen" method="_on_visibility_changed"]
 [connection signal="on_open" from="Main" to="Main" method="hide_input_node"]

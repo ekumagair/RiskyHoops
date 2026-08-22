@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bh1shmn4kdnhg"]
+
+[ext_resource type="PackedScene" uid="uid://d1nnwd180bxxk" path="res://Audio/Objects/snd_obj.tscn" id="1_qf2k3"]
+[ext_resource type="AudioStream" uid="uid://fwo52ascvo8a" path="res://Audio/SFX/Bell1.wav" id="2_eo3m2"]
+
+[node name="SndObj" unique_id=1005143247 instance=ExtResource("1_qf2k3")]
+sounds = Array[AudioStream]([ExtResource("2_eo3m2")])
+pitchMin = 0.9
+pitchMax = 1.1

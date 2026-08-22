@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://dbl7rbxgxomuq"]
+
+[node name="MusObj" type="AudioStreamPlayer" unique_id=736519583]
+bus = &"Music"
