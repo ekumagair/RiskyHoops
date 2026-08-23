@@ -95,6 +95,7 @@ attack_p1={
 3d_physics/layer_3="Ball"
 3d_physics/layer_4="Basket"
 3d_physics/layer_5="Slippery Area"
+3d_physics/layer_6="Attack"
 
 [physics]
 

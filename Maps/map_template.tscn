@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://c7kbmqnrl1bqh" path="res://Scripts/GameManager.gd" id="1_416mt"]
 [ext_resource type="PackedScene" uid="uid://b6qiamjwmhp8a" path="res://Prefabs/basket.tscn" id="2_416mt"]
 [ext_resource type="PackedScene" uid="uid://c5myae0fhujen" path="res://Prefabs/character.tscn" id="3_416mt"]
+[ext_resource type="PackedScene" uid="uid://duo4q2xbbsnp8" path="res://Prefabs/character_rohan.tscn" id="3_ry5na"]
 [ext_resource type="PackedScene" uid="uid://bpjxomayh5b5g" path="res://Prefabs/ball.tscn" id="4_fqdin"]
 [ext_resource type="Script" uid="uid://4ir1ks2njd2b" path="res://Scripts/CameraManager.gd" id="4_fuxmd"]
 
@@ -177,7 +178,7 @@ team = 1
 
 [node name="Objects" type="Node3D" parent="." unique_id=1818688397]
 
-[node name="Character" parent="Objects" unique_id=2078396322 instance=ExtResource("3_416mt")]
+[node name="CharacterRohan" parent="Objects" unique_id=2078396322 instance=ExtResource("3_ry5na")]
 
 [node name="Character2" parent="Objects" unique_id=368567721 instance=ExtResource("3_416mt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, -3)

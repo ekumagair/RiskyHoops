@@ -11,6 +11,17 @@ extends Node
 var characters : Array[Node]
 var charPosLimit : Vector3 = Vector3(13, 100, 7)
 
+var characterPrefabs = {
+	-1: null,
+	00: preload("res://Prefabs/character.tscn"),
+	01: preload("res://Prefabs/character_rohan.tscn"),
+}
+
+var attackPrefabs = {
+	-1: null,
+	00: preload("res://Prefabs/knife.tscn"),
+}
+
 func _ready() -> void:
 	global.gManager = self
 	get_characters()
@@ -25,6 +36,9 @@ func get_basket(team : int) -> Basket:
 func get_characters() -> void:
 	characters = get_tree().get_nodes_in_group("characters")
 
+func get_character_prefab(char : GameConstants.Characters):
+	return characterPrefabs[int(char)]
+
 func delete_characters() -> void:
 	get_characters()
 	for i in len(characters):
@@ -35,3 +49,6 @@ func release_ball(ball : Ball) -> void:
 	for i in len(characters):
 		if characters[i].heldBall == ball:
 			characters[i].heldBall = null
+
+func get_attack_prefab(attack : GameConstants.Attacks):
+	return attackPrefabs[int(attack)]

@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dgflm3unlfktn"]
+
+[ext_resource type="Texture2D" uid="uid://bom3i0es0rxwv" path="res://Sprites/Characters/Rohan/RohanJumpAttack1.png" id="1_a386a"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_a386a")
+texture_filter = 0
+texture_repeat = false

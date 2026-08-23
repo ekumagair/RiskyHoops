@@ -6,8 +6,13 @@ extends CharacterBody3D
 @export var moveSpeed : float = 5.0
 @export var jumpVelocity : float = 10.0
 @export var fallSpeed : float = 15.0
+@export var attackType : GameConstants.AttackTypes = GameConstants.AttackTypes.NONE
+@export var attackPrefab : GameConstants.Attacks = GameConstants.Attacks.NONE
+@export var attackDuration : float = 0.25
 
 @onready var ballHold : Node3D = $BallHold
+@onready var model : Node3D = $Model
+@onready var modelAnim : AnimationPlayer = $Model/AnimationPlayer
 
 var heldBall : Ball
 var teammate : Character
@@ -17,6 +22,8 @@ var charDirection : Vector3 = Vector3(1, 1, 0)
 var charDirectionPressed : Vector3 = Vector3(0, 0, 0)
 var targetWalkPos : Vector3 = Vector3(0, 0, 0)
 var targetWalkPosRange : float
+var attacking : bool = false
+var stunned : bool = false
 
 func _ready() -> void:
 	targetWalkPosRange = moveSpeed * 0.09
@@ -32,6 +39,7 @@ func _process(delta : float) -> void:
 		bot_search_target_pos()
 	
 	set_char_dir_from_velocity()
+	update_animation()
 
 func _physics_process(delta : float) -> void:
 	move_common_process(delta)
@@ -123,6 +131,9 @@ func player_actions_process(delta : float) -> void:
 	
 	if Input.is_action_just_pressed("ball_p" + idStr):
 		ball_action()
+	
+	if Input.is_action_just_pressed("attack_p" + idStr):
+		attack_action()
 #endregion
 
 #region Bot Logic
@@ -197,6 +208,10 @@ func get_horizontal_speed_factor() -> float:
 	
 	if !is_on_floor():
 		toReturn *= 0.5
+	if attacking and is_on_floor():
+		toReturn *= 0.0
+	if stunned:
+		toReturn *= 0.0 if !is_on_floor() else 0.4
 	
 	return toReturn
 #endregion
@@ -243,13 +258,13 @@ func _on_ball_area_entered(area : Area3D) -> void:
 	hold_ball(area.get_parent())
 
 func hold_ball(ball : Ball):
-	if heldBall != null or ball.forbidCharacter == self or ball.held or ball.scoring:
+	if heldBall != null or ball.forbidCharacter == self or ball.held or ball.scoring or attacking or stunned:
 		return
 	
 	ball.held = true
 	ball.holder = self
 	ball.reparent(ballHold)
-	ball.position = Vector3(0, 1, 0.01)
+	ball.position = Vector3(0, 1.0, 0.6)
 	heldBall = ball
 
 func release_ball(newVelocity : Vector3):
@@ -259,6 +274,7 @@ func release_ball(newVelocity : Vector3):
 	heldBall.forbidCharacter = self
 	heldBall.held = false
 	heldBall.holder = null
+	heldBall.position = Vector3(0, 1.0, 0)
 	heldBall.reparent(global.gManager.objects)
 	heldBall.position = heldBall.global_position
 	heldBall.velocity = newVelocity
@@ -277,4 +293,95 @@ func get_release_ball_force_towards(targetPos : Vector3) -> Vector3:
 		toReturn.z = 3
 	
 	return abs(toReturn)
+#endregion
+
+#region Animation
+func update_animation():
+	if charDirection.x >= 0:
+		model.scale.x = 1
+	else:
+		model.scale.x = -1
+	
+	if !is_on_floor():
+		if !attacking:
+			play_animation("jump")
+		else:
+			play_animation("jump_attack")
+	else:
+		if velocity.x != 0 or velocity.z != 0:
+			play_animation("walk")
+		else:
+			if !attacking:
+				play_animation("idle")
+			else:
+				play_animation("attack")
+
+func play_animation(anim : String):
+	if modelAnim.has_animation(anim):
+		modelAnim.play(anim)
+#endregion
+
+#region Attack
+func attack_action():
+	if attacking or stunned:
+		return
+	if attackType == GameConstants.AttackTypes.NONE or attackPrefab == GameConstants.Attacks.NONE:
+		return
+	if heldBall != null:
+		return
+	
+	var speed : float = 0
+	var dir : Vector3 = charDirection
+	
+	match attackPrefab:
+		GameConstants.Attacks.KNIFE:
+			speed = 15
+			dir.y = 0
+			dir.z = 0
+	
+	var instance = global.gManager.get_attack_prefab(attackPrefab).instantiate()
+	
+	if attackType == GameConstants.AttackTypes.PROJECTILE:
+		var instanceP : Projectile = instance as Projectile
+		instanceP.velocity = dir * speed
+	
+	global.gManager.objects.add_child(instance)
+	instance.global_position = global_position + Vector3(0, 1, 0)
+	instance.originBody = self
+	instance.originTeam = team
+	
+	if dir.x >= 0:
+		instance.model.scale.x = 1
+	else:
+		instance.model.scale.x = -1
+	
+	attack_delay()
+
+func attack_delay():
+	attacking = true
+	
+	await get_tree().create_timer(attackDuration).timeout
+	
+	attacking = false
+
+func stun():
+	if stunned:
+		return
+	
+	stunned = true
+	
+	if heldBall != null:
+		var force : Vector3 = Vector3(randf_range(-10, 10), randf_range(10, 12), randf_range(-10, 10))
+		release_ball(force)
+	
+	velocity = Vector3(0, 6, 0)
+	
+	for i in 10:
+		model.hide()
+		await get_tree().create_timer(0.1).timeout
+		model.show()
+		await get_tree().create_timer(0.1).timeout
+	
+	model.show()
+	stunned = false
 #endregion

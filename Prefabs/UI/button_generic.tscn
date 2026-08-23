@@ -7,7 +7,6 @@
 offset_right = 456.0
 offset_bottom = 40.0
 theme = ExtResource("1_3ut34")
-theme_override_constants/outline_size = 32
 text = "BUTTON GENERIC"
 flat = true
 alignment = 0

@@ -1,6 +1,7 @@
 extends Node
 
 var gManager : GameManager
+var charIds : Array[GameConstants.Characters]
 
 var versionBase : String
 var version : String
@@ -9,6 +10,9 @@ var isEditor : bool = false
 var isMobile : bool = false
 var developer : int = 0
 var cmdArgs : Dictionary
+
+func _ready() -> void:
+	charIds.clear()
 
 #region Gameplay
 func get_opposite_team(team : int) -> int:

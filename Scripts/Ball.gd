@@ -3,6 +3,7 @@ extends Node3D
 
 @onready var floorArea : Area3D = $FloorArea
 @onready var horizontalRayCast : RayCast3D = $HorizontalRayCast
+@onready var modelAnim : AnimationPlayer = $Model/AnimationPlayer
 
 var held : bool = false
 var holder : Character
@@ -18,6 +19,7 @@ var ballDirection : Vector3 = Vector3(0, 1, 0)
 
 func _process(delta : float) -> void:
 	update_direction()
+	update_animation()
 
 func _physics_process(delta : float) -> void:
 	if is_on_floor() and forbidCharacter != null:
@@ -57,7 +59,7 @@ func horizontal_velocity(delta : float):
 				velocity.x = -3
 		
 		if velocity.y == 0:
-			velocity.y = randf_range(1, 3)
+			velocity.y = randf_range(3, 6)
 		
 		velocity.x *= 1.01
 		return
@@ -108,6 +110,15 @@ func update_direction():
 		ballDirection.z = -1
 	
 	horizontalRayCast.target_position = Vector3(ballDirection.x * 0.3, 0, ballDirection.z * 0.3)
+
+func update_animation():
+	if held:
+		if holder.is_on_floor():
+			modelAnim.play("held")
+		else:
+			modelAnim.play("jump")
+	else:
+		modelAnim.play("default")
 
 func _on_slippery_area_entered(area: Area3D) -> void:
 	slippery = true

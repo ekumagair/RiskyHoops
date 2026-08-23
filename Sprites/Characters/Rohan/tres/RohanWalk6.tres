@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bhwailuk4xgl1"]
+
+[ext_resource type="Texture2D" uid="uid://bucthvhrly7m8" path="res://Sprites/Characters/Rohan/RohanWalk6.png" id="1_xngi8"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_xngi8")
+texture_filter = 0
+texture_repeat = false

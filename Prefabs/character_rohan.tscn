@@ -1,0 +1,135 @@
+[gd_scene format=3 uid="uid://duo4q2xbbsnp8"]
+
+[ext_resource type="PackedScene" uid="uid://c5myae0fhujen" path="res://Prefabs/character.tscn" id="1_245he"]
+[ext_resource type="Material" uid="uid://cy32tl6xh6vaf" path="res://Sprites/Characters/Rohan/tres/RohanWalk1.tres" id="2_cbigf"]
+[ext_resource type="Material" uid="uid://hfwrih4pnqqr" path="res://Sprites/Characters/Rohan/tres/RohanJump1.tres" id="3_0of3o"]
+[ext_resource type="Material" uid="uid://cg2x35kpdkhql" path="res://Sprites/Characters/Rohan/tres/RohanAttack1.tres" id="3_7qmtd"]
+[ext_resource type="Material" uid="uid://r5beaa7qsyvo" path="res://Sprites/Characters/Rohan/tres/RohanWalk2.tres" id="4_qwudc"]
+[ext_resource type="Material" uid="uid://bpcuwjqsx6n5r" path="res://Sprites/Characters/Rohan/tres/RohanWalk3.tres" id="5_7qmtd"]
+[ext_resource type="Material" uid="uid://dgflm3unlfktn" path="res://Sprites/Characters/Rohan/tres/RohanJumpAttack1.tres" id="5_bscj6"]
+[ext_resource type="Material" uid="uid://1g2ocf2lbyuy" path="res://Sprites/Characters/Rohan/tres/RohanWalk4.tres" id="6_bscj6"]
+[ext_resource type="Material" uid="uid://h3ldxvfmrgux" path="res://Sprites/Characters/Rohan/tres/RohanWalk5.tres" id="7_weims"]
+[ext_resource type="Material" uid="uid://bhwailuk4xgl1" path="res://Sprites/Characters/Rohan/tres/RohanWalk6.tres" id="8_m65r7"]
+[ext_resource type="Material" uid="uid://s4vhq2afti3g" path="res://Sprites/Characters/Rohan/tres/RohanWalk7.tres" id="9_iqjat"]
+[ext_resource type="Material" uid="uid://cc204nnp5ajkr" path="res://Sprites/Characters/Rohan/tres/RohanWalk8.tres" id="10_6li3n"]
+[ext_resource type="Material" uid="uid://c3pn68gayos2q" path="res://Sprites/Characters/Rohan/tres/RohanWalk9.tres" id="11_bfwhe"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_0of3o"]
+size = Vector2(3, 3)
+
+[sub_resource type="Animation" id="Animation_cbigf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_cbigf")]
+}
+
+[sub_resource type="Animation" id="Animation_bscj6"]
+resource_name = "attack"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(0, 0),
+"update": 1,
+"values": [ExtResource("3_7qmtd"), ExtResource("2_cbigf")]
+}
+
+[sub_resource type="Animation" id="Animation_0of3o"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("2_cbigf")]
+}
+
+[sub_resource type="Animation" id="Animation_hmily"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("3_0of3o")]
+}
+
+[sub_resource type="Animation" id="Animation_weims"]
+resource_name = "jump_attack"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.13333334),
+"transitions": PackedFloat32Array(0, 0),
+"update": 1,
+"values": [ExtResource("5_bscj6"), ExtResource("3_0of3o")]
+}
+
+[sub_resource type="Animation" id="Animation_t2nqv"]
+resource_name = "walk"
+length = 0.9
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("2_cbigf"), ExtResource("4_qwudc"), ExtResource("5_7qmtd"), ExtResource("6_bscj6"), ExtResource("7_weims"), ExtResource("8_m65r7"), ExtResource("9_iqjat"), ExtResource("10_6li3n"), ExtResource("11_bfwhe")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hmily"]
+_data = {
+&"RESET": SubResource("Animation_cbigf"),
+&"attack": SubResource("Animation_bscj6"),
+&"idle": SubResource("Animation_0of3o"),
+&"jump": SubResource("Animation_hmily"),
+&"jump_attack": SubResource("Animation_weims"),
+&"walk": SubResource("Animation_t2nqv")
+}
+
+[node name="CharacterRohan" unique_id=2078396322 instance=ExtResource("1_245he")]
+attackType = 0
+attackPrefab = 0
+
+[node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)
+mesh = SubResource("PlaneMesh_0of3o")
+surface_material_override/0 = ExtResource("2_cbigf")
+
+[node name="AnimationPlayer" parent="Model" parent_id_path=PackedInt32Array(1045958) index="1" unique_id=65148196]
+libraries/ = SubResource("AnimationLibrary_hmily")
+autoplay = &"idle"

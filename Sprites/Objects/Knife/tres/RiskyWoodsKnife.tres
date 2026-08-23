@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://ceh77yody0d5l"]
+
+[ext_resource type="Texture2D" uid="uid://cqk2xgperbiv8" path="res://Sprites/Objects/Knife/RiskyWoodsKnife.png" id="1_lr0qo"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_lr0qo")
+texture_filter = 0

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bpjxomayh5b5g"]
 
 [ext_resource type="Script" uid="uid://bvjlg0vqkn483" path="res://Scripts/Ball.gd" id="1_n88cj"]
-[ext_resource type="Material" uid="uid://bqaby455a8sra" path="res://Sprites/Objects/Ball/tres/ball1.tres" id="2_763xp"]
+[ext_resource type="Material" uid="uid://bqaby455a8sra" path="res://Sprites/Objects/Ball/tres/Ball1.tres" id="2_763xp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8gieq"]
 radius = 0.25
@@ -21,6 +21,76 @@ top_radius = 0.25
 bottom_radius = 0.25
 height = 0.1
 radial_segments = 16
+
+[sub_resource type="Animation" id="Animation_n88cj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0.013382912, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_763xp"]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 0,
+"values": [Vector3(0, 0.013382912, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_sh48c"]
+resource_name = "held"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.19999999, 0.39999998),
+"transitions": PackedFloat32Array(-2, -2, -2),
+"update": 0,
+"values": [Vector3(0, 0.013382912, 0), Vector3(0, -0.75, 0), Vector3(0, 0.013382912, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cfgco"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 0,
+"values": [Vector3(0, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cfgco"]
+_data = {
+&"RESET": SubResource("Animation_n88cj"),
+&"default": SubResource("Animation_763xp"),
+&"held": SubResource("Animation_sh48c"),
+&"jump": SubResource("Animation_cfgco")
+}
 
 [node name="Ball" type="Node3D" unique_id=415838134]
 script = ExtResource("1_n88cj")
@@ -67,6 +137,10 @@ surface_material_override/0 = ExtResource("2_763xp")
 transform = Transform3D(1, 0, 0, 0, -4.371137e-08, -0.99999976, 0, 0.99999976, -4.371137e-08, 0, 4.371138e-08, 0)
 cast_shadow = 3
 mesh = SubResource("CylinderMesh_41u4d")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Model" unique_id=425820212]
+libraries/ = SubResource("AnimationLibrary_cfgco")
+autoplay = &"default"
 
 [connection signal="area_entered" from="SlipperyArea" to="." method="_on_slippery_area_entered"]
 [connection signal="area_exited" from="SlipperyArea" to="." method="_on_slippery_area_exited"]

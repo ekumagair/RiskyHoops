@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://hfwrih4pnqqr"]
+
+[ext_resource type="Texture2D" uid="uid://h8fjrd8d8tg0" path="res://Sprites/Characters/Rohan/RohanJump1.png" id="1_ijinl"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_ijinl")
+texture_filter = 0
+texture_repeat = false
