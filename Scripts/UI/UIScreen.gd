@@ -3,6 +3,7 @@ extends Control
 
 @export var defaultColor : Color = Color(1, 1, 1, 1)
 @export var defaultButton : Button
+@export var cursor : Control
 
 @onready var animPlayer : AnimationPlayer = get_node_or_null("AnimationPlayer")
 @onready var inputRoot : Control = get_node_or_null("Input")
@@ -37,6 +38,8 @@ func open():
 	
 	if defaultButton != null:
 		global.give_focus_to(defaultButton)
+	else:
+		global.release_focus()
 
 func close():
 	if !isOpen:

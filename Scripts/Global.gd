@@ -32,6 +32,23 @@ func give_focus_to(toFocus):
 func release_focus():
 	if get_focus_owner() != null:
 		get_focus_owner().release_focus()
+
+func get_character_name(char : GameConstants.Characters):
+	match char:
+		GameConstants.Characters.NONE:
+			return ""
+		GameConstants.Characters.DUMMY:
+			return "DUMMY"
+		GameConstants.Characters.ROHAN:
+			return "ROHAN"
+		GameConstants.Characters.SKELETON:
+			return "SKELETON"
+		GameConstants.Characters.WARRIOR:
+			return "WARRIOR"
+		GameConstants.Characters.JOE_HOOPS:
+			return "JOE HOOPS"
+	
+	return ""
 #endregion
 
 #region Cmd

@@ -7,6 +7,7 @@ extends Node3D
 
 var held : bool = false
 var holder : Character
+var holderPrev : Character
 var scoring : bool = false
 var slippery : bool = false
 var velocity : Vector3 = Vector3(0, 10, 0)
@@ -16,6 +17,7 @@ var horizontalSpeedLoss : float = 4.0
 var horizontalBounceFactor : float = 0.8
 var forbidCharacter : Character
 var ballDirection : Vector3 = Vector3(0, 1, 0)
+var releasePos : Vector3 = Vector3.ZERO
 
 func _process(delta : float) -> void:
 	update_direction()

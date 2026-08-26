@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://dt636766vy8q4"]
+
+[ext_resource type="Texture2D" uid="uid://c2ftvcdkrbj50" path="res://Sprites/Objects/Ball/Ball1.png" id="1_u00cm"]
+[ext_resource type="Texture2D" uid="uid://btsctciyvbyyi" path="res://Sprites/Objects/Ball/Ball2.png" id="2_0koh6"]
+[ext_resource type="Texture2D" uid="uid://3k2psg6qx6o3" path="res://Sprites/Objects/Ball/Ball3.png" id="3_40qpb"]
+[ext_resource type="Texture2D" uid="uid://4k8od4stmc2q" path="res://Sprites/Objects/Ball/Ball4.png" id="4_xxfoh"]
+
+[sub_resource type="Animation" id="Animation_wyh8j"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_u00cm")]
+}
+
+[sub_resource type="Animation" id="Animation_ujyyl"]
+resource_name = "default"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(0, 0, 0, 0),
+"update": 1,
+"values": [ExtResource("1_u00cm"), ExtResource("2_0koh6"), ExtResource("3_40qpb"), ExtResource("4_xxfoh")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mkpwh"]
+_data = {
+&"RESET": SubResource("Animation_wyh8j"),
+&"default": SubResource("Animation_ujyyl")
+}
+
+[node name="Cursor" type="TextureRect" unique_id=821024305]
+texture_filter = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_u00cm")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=74738887]
+libraries/ = SubResource("AnimationLibrary_mkpwh")
+autoplay = &"default"

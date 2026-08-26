@@ -3,6 +3,7 @@ extends Node
 
 @export var baskets : Array[Basket]
 @export var ball : Ball
+@export var songs : Array[Audio.Music]
 
 @onready var camera : CameraManager = get_parent().get_node("CameraManager")
 @onready var environment : Node3D = get_parent().get_node("Environment")
@@ -10,6 +11,11 @@ extends Node
 
 var characters : Array[Node]
 var charPosLimit : Vector3 = Vector3(13, 100, 7)
+var score : Array[int]
+var timeMin : int = 5
+var timeSec : int = 0
+var timeSecTenth : int = 9
+var quarter : int = 1
 
 var characterPrefabs = {
 	-1: null,
@@ -25,6 +31,15 @@ var attackPrefabs = {
 func _ready() -> void:
 	global.gManager = self
 	get_characters()
+	
+	if len(songs) > 0:
+		audio.play_music(songs.pick_random())
+	
+	score.clear()
+	for i in 2:
+		score.append(0)
+	
+	reduce_time()
 
 func get_basket(team : int) -> Basket:
 	for i in len(baskets):
@@ -32,6 +47,9 @@ func get_basket(team : int) -> Basket:
 			return baskets[i]
 	
 	return null
+
+func add_score(value : int, team : int):
+	score[team] += value
 
 func get_characters() -> void:
 	characters = get_tree().get_nodes_in_group("characters")
@@ -52,3 +70,24 @@ func release_ball(ball : Ball) -> void:
 
 func get_attack_prefab(attack : GameConstants.Attacks):
 	return attackPrefabs[int(attack)]
+
+func reduce_time():
+	await get_tree().create_timer(0.1).timeout
+	
+	if timeSecTenth > 0:
+		timeSecTenth -= 1
+	else:
+		timeSecTenth = 9
+		
+		if timeSec > 0:
+			timeSec -= 1
+		else:
+			timeSec = 59
+			
+			if timeMin > 0:
+				timeMin -= 1
+	
+	if timeMin <= 0 and timeSec <= 0:
+		quarter += 1
+	
+	reduce_time()

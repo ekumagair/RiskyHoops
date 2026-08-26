@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://sunjipl1td7n"]
+
+[ext_resource type="Texture2D" uid="uid://btkkph560vf6v" path="res://Sprites/Characters/Rohan/RohanWalk1.png" id="1_m17rb"]
+[ext_resource type="Script" uid="uid://bmqy8ysnbrnjh" path="res://Scripts/UI/ButtonCharacter.gd" id="1_n1k8k"]
+[ext_resource type="PackedScene" uid="uid://c4sy8aqxdflnh" path="res://Prefabs/UI/button_generic.tscn" id="2_n1k8k"]
+
+[node name="ButtonCharacter" type="Control" unique_id=1442853290]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_n1k8k")
+
+[node name="CharacterImage" type="TextureRect" parent="." unique_id=495388815]
+texture_filter = 1
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 320.0
+texture = ExtResource("1_m17rb")
+
+[node name="ButtonGeneric" parent="." unique_id=398400624 instance=ExtResource("2_n1k8k")]
+layout_mode = 0
+offset_top = -40.0
+offset_right = 320.0
+offset_bottom = 0.0
+text = "ROHAN"
+alignment = 1
+
+[connection signal="pressed" from="ButtonGeneric" to="." method="pressed_character_button"]

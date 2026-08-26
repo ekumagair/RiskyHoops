@@ -19,6 +19,9 @@ enum Music
 	MAIN_MENU_HOOPS1 = 1,
 	MAIN_MENU_HOOPS2 = 2,
 	MAIN_MENU_RISKY = 3,
+	MATCH_HOOPS1_A = 4,
+	MATCH_HOOPS1_B = 5,
+	MATCH_HOOPS1_C = 6,
 }
 
 var musicFiles = {
@@ -27,6 +30,9 @@ var musicFiles = {
 	01: preload("res://Audio/Music/MainMenu1.ogg"),
 	02: preload("res://Audio/Music/MainMenu2.ogg"),
 	03: preload("res://Audio/Music/MainMenu3.ogg"),
+	04: preload("res://Audio/Music/MatchTheme1.ogg"),
+	05: preload("res://Audio/Music/MatchTheme2.ogg"),
+	06: preload("res://Audio/Music/MatchTheme3.ogg"),
 }
 
 var sfxBusName : String = "SFX"

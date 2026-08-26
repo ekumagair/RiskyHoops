@@ -27,6 +27,16 @@ func _ready():
 		for k in global.cmdArgs.keys():
 			print("--" + str(k))
 	
+	# Check which save slot to use.
+	if !global.has_user_arg_key("save_slot"):
+		savedata.currentSaveSlot = 0
+	else:
+		savedata.currentSaveSlot = int(global.get_user_arg_value("save_slot"))
+		print("Using save slot " + str(savedata.currentSaveSlot))
+	
+	# Load saved data.
+	savedata.load_current_slot()
+	
 	# Must wait at least one frame before changing scene.
 	await get_tree().process_frame
 	

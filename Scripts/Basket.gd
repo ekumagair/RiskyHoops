@@ -12,6 +12,7 @@ func _on_ball_area_entered(area: Area3D) -> void:
 		return
 	
 	global.gManager.release_ball(ball)
+	global.gManager.add_score(2, global.get_opposite_team(team))
 	
 	ball.held = false
 	ball.scoring = true

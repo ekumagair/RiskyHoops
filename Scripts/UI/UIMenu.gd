@@ -28,3 +28,10 @@ func go_to_screen(sName : String) -> void:
 			screenCurrent = screens[i]
 		else:
 			screens[i].hide()
+
+func get_screen(sName : String) -> UIScreen:
+	for i in len(screens):
+		if screens[i].name == sName:
+			return screens[i]
+	
+	return null

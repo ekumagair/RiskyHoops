@@ -7,8 +7,10 @@
 [ext_resource type="Script" uid="uid://7kmvffsi8ubp" path="res://Scripts/UI/UIScreen.gd" id="3_cp0ys"]
 [ext_resource type="Texture2D" uid="uid://blou7vi1rwhfo" path="res://Sprites/UI/MainMenuHoops.png" id="4_ce3w2"]
 [ext_resource type="Script" uid="uid://b211q786ccr2y" path="res://Scripts/UI/TitleScreen.gd" id="4_cp0ys"]
+[ext_resource type="PackedScene" uid="uid://dt636766vy8q4" path="res://Prefabs/UI/cursor.tscn" id="8_vr1f0"]
 [ext_resource type="PackedScene" uid="uid://c4sy8aqxdflnh" path="res://Prefabs/UI/button_generic.tscn" id="8_yhxw7"]
 [ext_resource type="Texture2D" uid="uid://c4wwes88jvjke" path="res://Sprites/UI/CharacterSelectBGWide.png" id="9_trj04"]
+[ext_resource type="PackedScene" uid="uid://sunjipl1td7n" path="res://Prefabs/UI/button_character.tscn" id="11_vr1f0"]
 
 [sub_resource type="Animation" id="Animation_opfnp"]
 length = 0.001
@@ -92,7 +94,48 @@ _data = {
 &"open": SubResource("Animation_vr1f0")
 }
 
-[node name="MainMenu" type="Control" unique_id=1007936359 node_paths=PackedStringArray("screens")]
+[sub_resource type="Animation" id="Animation_5egv6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8dnnj"]
+resource_name = "close"
+
+[sub_resource type="Animation" id="Animation_vtepg"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(0, 0, 0, 0, 0, 0),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.8), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8dnnj"]
+_data = {
+&"RESET": SubResource("Animation_5egv6"),
+&"close": SubResource("Animation_8dnnj"),
+&"open": SubResource("Animation_vtepg")
+}
+
+[node name="MainMenu" type="Control" unique_id=1007936359 node_paths=PackedStringArray("btnChars", "screens")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,6 +144,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_48xlc")
 script = ExtResource("2_opfnp")
+btnChars = [NodePath("Chars/Input/HBoxContainer/ButtonCharacter1"), NodePath("Chars/Input/HBoxContainer/ButtonCharacter2"), NodePath("Chars/Input/HBoxContainer/ButtonCharacter3"), NodePath("Chars/Input/HBoxContainer/ButtonCharacter4")]
 screens = [NodePath("TitleScreen"), NodePath("Main"), NodePath("Chars")]
 screenDefault = "TitleScreen"
 songsDefault = Array[int]([1, 2, 3])
@@ -116,6 +160,7 @@ grow_vertical = 2
 texture = ExtResource("2_1ehe0")
 
 [node name="TitleScreen" type="Control" parent="." unique_id=1221587614]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -177,6 +222,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="VersionLabel" type="Label" parent="TitleScreen" unique_id=398208839]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -211,7 +257,7 @@ texture = ExtResource("3_1ehe0")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TitleScreen" unique_id=483716293]
 libraries/ = SubResource("AnimationLibrary_yhxw7")
 
-[node name="Main" type="Control" parent="." unique_id=1685508023 node_paths=PackedStringArray("defaultButton")]
+[node name="Main" type="Control" parent="." unique_id=1685508023 node_paths=PackedStringArray("defaultButton", "cursor")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -221,6 +267,7 @@ grow_vertical = 2
 script = ExtResource("3_cp0ys")
 defaultColor = Color(1, 1, 1, 0)
 defaultButton = NodePath("Input/VBoxContainer/Button1")
+cursor = NodePath("Input/Cursor")
 
 [node name="Background" type="TextureRect" parent="Main" unique_id=1942515058]
 texture_filter = 1
@@ -243,6 +290,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Cursor" parent="Main/Input" unique_id=821024305 instance=ExtResource("8_vr1f0")]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 320.0
+offset_right = 568.0
+offset_bottom = 360.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Main/Input" unique_id=2094529081]
 layout_mode = 1
@@ -323,8 +377,7 @@ text = "GAME OPTIONS"
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Main" unique_id=415525264]
 libraries/ = SubResource("AnimationLibrary_t1dhk")
 
-[node name="Chars" type="Control" parent="." unique_id=609585522]
-visible = false
+[node name="Chars" type="Control" parent="." unique_id=609585522 node_paths=PackedStringArray("cursor")]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -332,6 +385,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_cp0ys")
+cursor = NodePath("Input/Cursor")
 
 [node name="Background" type="TextureRect" parent="Chars" unique_id=473348271]
 texture_filter = 1
@@ -353,6 +407,66 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Cursor" parent="Chars/Input" unique_id=1200188704 instance=ExtResource("8_vr1f0")]
+layout_mode = 0
+offset_left = 456.0
+offset_top = 600.0
+offset_right = 496.0
+offset_bottom = 640.0
+
+[node name="MainLabel" type="Label" parent="Chars/Input" unique_id=116859798]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 128.0
+offset_right = 1472.0
+offset_bottom = 256.0
+text = "PLAYER, CHOOSE YOUR CHARACTER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Chars/Input" unique_id=1903259762]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 704.0
+offset_right = 1600.0
+offset_bottom = 1024.0
+
+[node name="ButtonCharacter1" parent="Chars/Input/HBoxContainer" unique_id=1442853290 instance=ExtResource("11_vr1f0")]
+layout_mode = 2
+character = 1
+
+[node name="ButtonGeneric" parent="Chars/Input/HBoxContainer/ButtonCharacter1" index="1" unique_id=398400624]
+focus_neighbor_right = NodePath("../../ButtonCharacter2/ButtonGeneric")
+
+[node name="ButtonCharacter2" parent="Chars/Input/HBoxContainer" unique_id=1652349244 instance=ExtResource("11_vr1f0")]
+layout_mode = 2
+character = 2
+
+[node name="ButtonGeneric" parent="Chars/Input/HBoxContainer/ButtonCharacter2" index="1" unique_id=398400624]
+focus_neighbor_left = NodePath("../../ButtonCharacter1/ButtonGeneric")
+focus_neighbor_right = NodePath("../../ButtonCharacter3/ButtonGeneric")
+text = "SKELETON"
+
+[node name="ButtonCharacter3" parent="Chars/Input/HBoxContainer" unique_id=1427899145 instance=ExtResource("11_vr1f0")]
+layout_mode = 2
+character = 3
+
+[node name="ButtonGeneric" parent="Chars/Input/HBoxContainer/ButtonCharacter3" index="1" unique_id=398400624]
+focus_neighbor_left = NodePath("../../ButtonCharacter2/ButtonGeneric")
+focus_neighbor_right = NodePath("../../ButtonCharacter4/ButtonGeneric")
+text = "WARRIOR"
+
+[node name="ButtonCharacter4" parent="Chars/Input/HBoxContainer" unique_id=1787014870 instance=ExtResource("11_vr1f0")]
+layout_mode = 2
+character = 4
+
+[node name="ButtonGeneric" parent="Chars/Input/HBoxContainer/ButtonCharacter4" index="1" unique_id=398400624]
+focus_neighbor_left = NodePath("../../ButtonCharacter3/ButtonGeneric")
+text = "JOE HOOPS"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Chars" unique_id=1519871341]
+libraries/ = SubResource("AnimationLibrary_8dnnj")
+
 [connection signal="on_close" from="TitleScreen" to="." method="go_to_main"]
 [connection signal="on_open" from="TitleScreen" to="TitleScreen" method="on_title_open"]
 [connection signal="on_open" from="TitleScreen" to="TitleScreen" method="hide_input_node"]
@@ -361,4 +475,28 @@ grow_vertical = 2
 [connection signal="on_open" from="Main" to="Main" method="hide_input_node"]
 [connection signal="on_open_finish" from="Main" to="Main" method="show_input_node"]
 [connection signal="pressed" from="Main/Input/VBoxContainer/Button1" to="." method="new_game"]
+[connection signal="on_left" from="Main/Input/VBoxContainer/Button2" to="." method="back_quarter_duration"]
+[connection signal="on_right" from="Main/Input/VBoxContainer/Button2" to="." method="next_quarter_duration"]
+[connection signal="pressed" from="Main/Input/VBoxContainer/Button2" to="." method="next_quarter_duration"]
+[connection signal="on_left" from="Main/Input/VBoxContainer/Button3" to="." method="back_score_goal"]
+[connection signal="on_right" from="Main/Input/VBoxContainer/Button3" to="." method="next_score_goal"]
+[connection signal="pressed" from="Main/Input/VBoxContainer/Button3" to="." method="next_score_goal"]
+[connection signal="on_left" from="Main/Input/VBoxContainer/Button4" to="." method="back_music_volume"]
+[connection signal="on_right" from="Main/Input/VBoxContainer/Button4" to="." method="next_music_volume"]
+[connection signal="pressed" from="Main/Input/VBoxContainer/Button4" to="." method="next_music_volume"]
+[connection signal="on_left" from="Main/Input/VBoxContainer/Button5" to="." method="back_sfx_volume"]
+[connection signal="on_right" from="Main/Input/VBoxContainer/Button5" to="." method="next_sfx_volume"]
+[connection signal="pressed" from="Main/Input/VBoxContainer/Button5" to="." method="next_sfx_volume"]
 [connection signal="pressed" from="Main/Input/VBoxContainer/Button6" to="." method="quit_game"]
+[connection signal="on_open" from="Chars" to="Chars" method="hide_input_node"]
+[connection signal="on_open_finish" from="Chars" to="." method="let_player_select_character"]
+[connection signal="on_open_finish" from="Chars" to="Chars" method="show_input_node"]
+[connection signal="pressed" from="Chars/Input/HBoxContainer/ButtonCharacter1" to="." method="character_selected"]
+[connection signal="pressed" from="Chars/Input/HBoxContainer/ButtonCharacter2" to="." method="character_selected"]
+[connection signal="pressed" from="Chars/Input/HBoxContainer/ButtonCharacter3" to="." method="character_selected"]
+[connection signal="pressed" from="Chars/Input/HBoxContainer/ButtonCharacter4" to="." method="character_selected"]
+
+[editable path="Chars/Input/HBoxContainer/ButtonCharacter1"]
+[editable path="Chars/Input/HBoxContainer/ButtonCharacter2"]
+[editable path="Chars/Input/HBoxContainer/ButtonCharacter3"]
+[editable path="Chars/Input/HBoxContainer/ButtonCharacter4"]

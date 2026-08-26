@@ -263,6 +263,9 @@ func hold_ball(ball : Ball):
 	
 	ball.held = true
 	ball.holder = self
+	call_deferred("reparent_ball", ball)
+
+func reparent_ball(ball : Ball):
 	ball.reparent(ballHold)
 	ball.position = Vector3(0, 1.0, 0.6)
 	heldBall = ball
@@ -274,6 +277,8 @@ func release_ball(newVelocity : Vector3):
 	heldBall.forbidCharacter = self
 	heldBall.held = false
 	heldBall.holder = null
+	heldBall.holderPrev = self
+	heldBall.releasePos = global_position
 	heldBall.position = Vector3(0, 1.0, 0)
 	heldBall.reparent(global.gManager.objects)
 	heldBall.position = heldBall.global_position
