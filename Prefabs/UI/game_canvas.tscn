@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dr5nh511i8vuq"]
+
+[ext_resource type="Script" uid="uid://dpsccsake4msd" path="res://Scripts/GameCanvas.gd" id="1_bj44r"]
+[ext_resource type="Theme" uid="uid://bdp8nux7uxbd6" path="res://Themes/main_theme.tres" id="2_5pju7"]
+[ext_resource type="FontFile" uid="uid://cjqcchkbnk3yk" path="res://Fonts/I-pixel-u.ttf" id="3_v41ug"]
+
+[node name="GameCanvas" type="CanvasLayer" unique_id=795019234 node_paths=PackedStringArray("playerName", "scoreLabels")]
+script = ExtResource("1_bj44r")
+playerName = [NodePath("Control/Scoreboard/PlayerTeam0A"), NodePath("Control/Scoreboard/PlayerTeam1A"), NodePath("Control/Scoreboard/PlayerTeam0B"), NodePath("Control/Scoreboard/PlayerTeam1B")]
+scoreLabels = [NodePath("Control/Scoreboard/ScoreTeam0"), NodePath("Control/Scoreboard/ScoreTeam1")]
+
+[node name="Control" type="Control" parent="." unique_id=1802369647]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_5pju7")
+
+[node name="Scoreboard" type="Control" parent="Control" unique_id=440915771]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 192.0
+grow_horizontal = 2
+
+[node name="PlayerTeam0A" type="Label" parent="Control/Scoreboard" unique_id=633912818]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 64.0
+offset_right = 640.0
+offset_bottom = 104.0
+text = "PLAYER NAME"
+
+[node name="PlayerTeam0B" type="Label" parent="Control/Scoreboard" unique_id=1202123358]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 112.0
+offset_right = 640.0
+offset_bottom = 152.0
+text = "PLAYER NAME"
+
+[node name="ScoreTeam0" type="Label" parent="Control/Scoreboard" unique_id=335651723]
+layout_mode = 0
+offset_left = 640.0
+offset_top = 64.0
+offset_right = 768.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(0, 0.5019608, 1, 1)
+text = "50"
+
+[node name="PlayerTeam1A" type="Label" parent="Control/Scoreboard" unique_id=1352759080]
+layout_mode = 0
+offset_left = 1280.0
+offset_top = 64.0
+offset_right = 1792.0
+offset_bottom = 104.0
+text = "PLAYER NAME"
+horizontal_alignment = 2
+
+[node name="PlayerTeam1B" type="Label" parent="Control/Scoreboard" unique_id=1460707665]
+layout_mode = 0
+offset_left = 1280.0
+offset_top = 112.0
+offset_right = 1792.0
+offset_bottom = 152.0
+text = "PLAYER NAME"
+horizontal_alignment = 2
+
+[node name="ScoreTeam1" type="Label" parent="Control/Scoreboard" unique_id=1080546158]
+layout_mode = 0
+offset_left = 1152.0
+offset_top = 64.0
+offset_right = 1280.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "50"
+horizontal_alignment = 2
+
+[node name="TimeMin" type="Label" parent="Control/Scoreboard" unique_id=1857476227]
+layout_mode = 0
+offset_left = 856.0
+offset_top = 64.0
+offset_right = 936.0
+offset_bottom = 104.0
+text = "5"
+horizontal_alignment = 2
+
+[node name="TimeSec" type="Label" parent="Control/Scoreboard" unique_id=209254950]
+layout_mode = 0
+offset_left = 960.0
+offset_top = 64.0
+offset_right = 1040.0
+offset_bottom = 104.0
+text = "00"
+
+[node name="TimeSeparator" type="Label" parent="Control/Scoreboard" unique_id=538289476]
+layout_mode = 0
+offset_left = 944.0
+offset_top = 56.0
+offset_right = 964.0
+offset_bottom = 96.0
+theme_override_fonts/font = ExtResource("3_v41ug")
+text = ":"
+
+[node name="Quarter" type="Label" parent="Control/Scoreboard" unique_id=105979661]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 112.0
+offset_right = 1120.0
+offset_bottom = 152.0
+text = "QUARTER 1"
+horizontal_alignment = 1

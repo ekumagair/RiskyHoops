@@ -16,9 +16,6 @@ func _process(delta : float) -> void:
 		update_text()
 
 func update_text():
-	for i in len(playerName):
-		playerName[i].text = "PLAYER " + str(i)
-	
 	for i in len(global.gManager.score):
 		scoreLabels[i].text = str(global.gManager.score[i])
 	
@@ -29,5 +26,9 @@ func update_text():
 	else:
 		timeSec.text = "0" + str(global.gManager.timeSec)
 	
-	for i in len(global.charIds):
-		scoreLabels[i].text = global.get_character_name(global.charIds[i])
+	if len(global.charIds) > 0:
+		for i in len(global.charIds):
+			playerName[i].text = global.get_character_name(global.charIds[i])
+	else:
+		for i in len(playerName):
+			playerName[i].text = "PLAYER " + str(i)

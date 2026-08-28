@@ -29,9 +29,7 @@ func open():
 	isOpen = false
 	on_open.emit()
 	
-	if animPlayer != null:
-		animPlayer.play("open")
-		await animPlayer.animation_finished
+	await play_animation("open")
 	
 	isOpen = true
 	on_open_finish.emit()
@@ -50,9 +48,7 @@ func close():
 	
 	release_focus()
 	
-	if animPlayer != null:
-		animPlayer.play("close")
-		await animPlayer.animation_finished
+	await play_animation("close")
 	
 	on_close_finish.emit()
 	hide()
@@ -68,3 +64,8 @@ func hide_input_node():
 func show_input_node():
 	if inputRoot != null:
 		inputRoot.show()
+
+func play_animation(animName : String):
+	if animPlayer != null:
+		animPlayer.play(animName)
+		await animPlayer.animation_finished

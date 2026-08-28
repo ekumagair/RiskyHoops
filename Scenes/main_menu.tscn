@@ -108,9 +108,34 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -536)]
+}
 
 [sub_resource type="Animation" id="Animation_8dnnj"]
 resource_name = "close"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(0, 0, 0, 0, 0, 0),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.8), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_vtepg"]
 resource_name = "open"
@@ -127,15 +152,43 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.2), Color(1, 1, 1, 0.4), Color(1, 1, 1, 0.6), Color(1, 1, 1, 0.8), Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 0,
+"values": [Vector2(0, -536)]
+}
+
+[sub_resource type="Animation" id="Animation_t1dhk"]
+resource_name = "scroll_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -536), Vector2(0, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8dnnj"]
 _data = {
 &"RESET": SubResource("Animation_5egv6"),
 &"close": SubResource("Animation_8dnnj"),
-&"open": SubResource("Animation_vtepg")
+&"open": SubResource("Animation_vtepg"),
+&"scroll_up": SubResource("Animation_t1dhk")
 }
 
-[node name="MainMenu" type="Control" unique_id=1007936359 node_paths=PackedStringArray("btnChars", "screens")]
+[node name="MainMenu" type="Control" unique_id=1007936359 node_paths=PackedStringArray("btnChars", "labelChars", "screens")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -145,6 +198,7 @@ grow_vertical = 2
 theme = ExtResource("1_48xlc")
 script = ExtResource("2_opfnp")
 btnChars = [NodePath("Chars/Input/HBoxContainer/ButtonCharacter1"), NodePath("Chars/Input/HBoxContainer/ButtonCharacter2"), NodePath("Chars/Input/HBoxContainer/ButtonCharacter3"), NodePath("Chars/Input/HBoxContainer/ButtonCharacter4")]
+labelChars = [NodePath("Chars/OnFinished/Character0"), NodePath("Chars/OnFinished/Character1"), NodePath("Chars/OnFinished/Character2"), NodePath("Chars/OnFinished/Character3")]
 screens = [NodePath("TitleScreen"), NodePath("Main"), NodePath("Chars")]
 screenDefault = "TitleScreen"
 songsDefault = Array[int]([1, 2, 3])
@@ -400,6 +454,7 @@ grow_vertical = 2
 texture = ExtResource("9_trj04")
 
 [node name="Input" type="Control" parent="Chars" unique_id=1405953833]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -463,6 +518,77 @@ character = 4
 [node name="ButtonGeneric" parent="Chars/Input/HBoxContainer/ButtonCharacter4" index="1" unique_id=398400624]
 focus_neighbor_left = NodePath("../../ButtonCharacter3/ButtonGeneric")
 text = "JOE HOOPS"
+
+[node name="OnFinished" type="Control" parent="Chars" unique_id=1928505517]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TeamPlayer" type="Label" parent="Chars/OnFinished" unique_id=203164325]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 448.0
+offset_right = 832.0
+offset_bottom = 488.0
+theme_override_colors/font_color = Color(0, 0.5019608, 1, 1)
+text = "PLAYER"
+horizontal_alignment = 2
+
+[node name="Character0" type="Label" parent="Chars/OnFinished" unique_id=1850049237]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 496.0
+offset_right = 832.0
+offset_bottom = 536.0
+text = "PLAYER NAME"
+horizontal_alignment = 2
+
+[node name="Character2" type="Label" parent="Chars/OnFinished" unique_id=862566934]
+layout_mode = 0
+offset_left = 320.0
+offset_top = 544.0
+offset_right = 832.0
+offset_bottom = 584.0
+text = "PLAYER NAME"
+horizontal_alignment = 2
+
+[node name="VS" type="Label" parent="Chars/OnFinished" unique_id=295105472]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 504.0
+offset_right = 1024.0
+offset_bottom = 568.0
+theme_override_font_sizes/font_size = 64
+text = "VS"
+vertical_alignment = 1
+
+[node name="TeamCPU" type="Label" parent="Chars/OnFinished" unique_id=320674589]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 448.0
+offset_right = 1600.0
+offset_bottom = 488.0
+theme_override_colors/font_color = Color(1, 0, 0, 1)
+text = "CPU"
+
+[node name="Character1" type="Label" parent="Chars/OnFinished" unique_id=391957149]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 496.0
+offset_right = 1600.0
+offset_bottom = 536.0
+text = "PLAYER NAME"
+
+[node name="Character3" type="Label" parent="Chars/OnFinished" unique_id=2020708079]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 544.0
+offset_right = 1600.0
+offset_bottom = 584.0
+text = "PLAYER NAME"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Chars" unique_id=1519871341]
 libraries/ = SubResource("AnimationLibrary_8dnnj")

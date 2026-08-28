@@ -94,7 +94,7 @@ func play_music(music : Music):
 	# Fade the old music out before playing the new one.
 	if musicStream.playing and musicCurrent != Music.SILENCE:
 		var tweenOut = create_tween()
-		tweenOut.tween_property(musicStream, "volume_db", -80.0, 0.5)
+		tweenOut.tween_property(musicStream, "volume_db", -80.0, 0.05)
 		
 		await tweenOut.finished
 		musicStream.stop()

@@ -1,6 +1,7 @@
 extends UIMenu
 
 @export var btnChars : Array[ButtonCharacter]
+@export var labelChars : Array[Label]
 
 @onready var btnQuarterDuration : Button = $Main/Input/VBoxContainer/Button2
 @onready var btnScoreGoal : Button = $Main/Input/VBoxContainer/Button3
@@ -10,6 +11,7 @@ extends UIMenu
 
 var mainScreen : UIScreen
 var charsScreen : UIScreen
+var charsScreenFinishedRoot : Control
 var currentCharIndex : int = 0
 var isCpuSelecting : bool = false
 
@@ -17,6 +19,7 @@ func _ready() -> void:
 	base_ready()
 	mainScreen = get_screen("Main")
 	charsScreen = get_screen("Chars")
+	charsScreenFinishedRoot = charsScreen.get_node("OnFinished")
 
 func _process(delta : float) -> void:
 	update_button_text()
@@ -36,12 +39,18 @@ func go_to_char_select():
 
 func new_game():
 	savedata.save_current_slot()
+	
 	global.charIds.clear()
+	charsScreenFinishedRoot.hide()
 	currentCharIndex = 0
+	
 	go_to_screen("Chars")
 	#get_tree().change_scene_to_file("res://Maps/map_template.tscn")
 
+#region Character Select
 func let_player_select_character():
+	charSelectLabel.show()
+	
 	if currentCharIndex == 0:
 		charSelectLabel.text = "PLAYER, CHOOSE YOUR CHARACTER"
 	elif currentCharIndex == 2:
@@ -59,18 +68,25 @@ func let_cpu_select_character():
 	isCpuSelecting = true
 	global.release_focus()
 	
-	var possibleChars : Array[ButtonCharacter] = btnChars.duplicate()
+	var possibleChars : Array[ButtonCharacter] = btnChars.duplicate(true)
+	var possibleCharIndex : int = 0
 	var selectedChar : ButtonCharacter
 	
 	if !options.duplicateChars:
-		for i in 4:
-			if i >= len(possibleChars):
+		while possibleCharIndex < 4:
+			if possibleCharIndex >= len(possibleChars):
+				possibleCharIndex += 1
 				continue
 			
-			if global.charIds.has(possibleChars[i].character):
-				possibleChars.erase(possibleChars[i])
+			if global.charIds.has(possibleChars[possibleCharIndex].character):
+				possibleChars.erase(possibleChars[possibleCharIndex])
+			if possibleChars[possibleCharIndex].chosen:
+				possibleChars.erase(possibleChars[possibleCharIndex])
+			
+			possibleCharIndex += 1
 	
 	selectedChar = possibleChars.pick_random()
+	selectedChar.chosen = true
 	global.charIds.append(selectedChar.character)
 	currentCharIndex += 1
 	
@@ -81,7 +97,7 @@ func let_cpu_select_character():
 	if currentCharIndex < 4:
 		let_player_select_character()
 	else:
-		charsScreen.cursor.hide()
+		character_selection_ended()
 
 func character_selected(char : GameConstants.Characters):
 	if isCpuSelecting:
@@ -91,6 +107,34 @@ func character_selected(char : GameConstants.Characters):
 	currentCharIndex += 1
 	
 	let_cpu_select_character()
+
+func character_selection_ended():
+	charsScreen.cursor.hide()
+	charsScreen.inputRoot.hide()
+	charSelectLabel.hide()
+	charsScreenFinishedRoot.hide()
+	
+	for i in len(labelChars):
+		labelChars[i].text = global.get_character_name(global.charIds[i])
+	
+	await charsScreen.play_animation("scroll_up")
+	
+	charsScreenFinishedRoot.show()
+	
+	var waitFrames : int = 300
+	
+	while !Input.is_anything_pressed() and waitFrames > 0:
+		await get_tree().process_frame
+		waitFrames -= 1
+	
+	await charsScreen.play_animation("close")
+	
+	audio.fade_music_to_silence()
+	
+	await get_tree().create_timer(1).timeout
+	
+	get_tree().change_scene_to_file("res://Maps/map_template.tscn")
+#endregion
 
 func quit_game():
 	savedata.save_current_slot()

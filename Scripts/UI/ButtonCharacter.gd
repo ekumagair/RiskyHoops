@@ -6,6 +6,8 @@ extends Control
 @onready var btn : ButtonComplement = $ButtonGeneric
 @onready var img : TextureRect = $CharacterImage
 
+var chosen : bool = false
+
 signal pressed(char : GameConstants.Characters)
 
 func _process(delta : float) -> void:
@@ -17,4 +19,5 @@ func _process(delta : float) -> void:
 		img.modulate = Color(1, 1, 1, 1)
 
 func pressed_character_button():
+	chosen = true
 	pressed.emit(character)

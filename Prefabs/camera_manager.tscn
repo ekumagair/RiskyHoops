@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://os3x2wtlkuft"]
+
+[ext_resource type="Script" uid="uid://4ir1ks2njd2b" path="res://Scripts/CameraManager.gd" id="1_i5siu"]
+
+[node name="CameraManager" type="Node3D" unique_id=794078316 node_paths=PackedStringArray("cameraFollowTarget")]
+script = ExtResource("1_i5siu")
+cameraFollowTarget = NodePath("")
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=704582231]
+transform = Transform3D(1, 0, 0, 0, 0.9396927, 0.34202015, 0, -0.34202015, 0.9396927, 0, 8.158, 19.875)
+fov = 30.0
+size = 14.812
