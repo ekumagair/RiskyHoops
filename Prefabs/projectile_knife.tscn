@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://dieqbgt82i2hh"]
+
+[ext_resource type="PackedScene" uid="uid://vy75kaj4ln4o" path="res://Prefabs/projectile.tscn" id="1_67mt5"]
+
+[node name="Knife" unique_id=335571258 instance=ExtResource("1_67mt5")]

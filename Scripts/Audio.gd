@@ -5,11 +5,13 @@ enum Sound
 {
 	NONE = -1,
 	BELL = 0,
+	STOMP = 1,
 }
 
 var soundObjs = {
 	-1: null,
 	00: preload("res://Audio/Objects/snd_obj_bell.tscn"),
+	01: preload("res://Audio/Objects/snd_obj_stomp.tscn"),
 }
 
 enum Music

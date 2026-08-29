@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bicfu313h2mo2"]
+
+[ext_resource type="PackedScene" uid="uid://d1nnwd180bxxk" path="res://Audio/Objects/snd_obj.tscn" id="1_2t5mx"]
+[ext_resource type="AudioStream" uid="uid://4jybutndqn3t" path="res://Audio/SFX/Stomp1Crushed.wav" id="2_m04m6"]
+
+[node name="SndObj" unique_id=1005143247 instance=ExtResource("1_2t5mx")]
+sounds = Array[AudioStream]([ExtResource("2_m04m6")])
+pitchMin = 0.95
+pitchMax = 1.05

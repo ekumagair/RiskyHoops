@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c4sy8aqxdflnh" path="res://Prefabs/UI/button_generic.tscn" id="8_yhxw7"]
 [ext_resource type="Texture2D" uid="uid://c4wwes88jvjke" path="res://Sprites/UI/CharacterSelectBGWide.png" id="9_trj04"]
 [ext_resource type="PackedScene" uid="uid://sunjipl1td7n" path="res://Prefabs/UI/button_character.tscn" id="11_vr1f0"]
+[ext_resource type="Texture2D" uid="uid://bu3wq7pevybus" path="res://Sprites/Characters/Hoops/JoeHoopsIdle1.png" id="12_t1dhk"]
 
 [sub_resource type="Animation" id="Animation_opfnp"]
 length = 0.001
@@ -454,7 +455,6 @@ grow_vertical = 2
 texture = ExtResource("9_trj04")
 
 [node name="Input" type="Control" parent="Chars" unique_id=1405953833]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -515,11 +515,20 @@ text = "WARRIOR"
 layout_mode = 2
 character = 4
 
+[node name="CharacterImage" parent="Chars/Input/HBoxContainer/ButtonCharacter4" index="0" unique_id=495388815]
+offset_left = -44.0
+offset_top = -24.0
+offset_right = 356.0
+offset_bottom = 340.0
+texture = ExtResource("12_t1dhk")
+expand_mode = 2
+
 [node name="ButtonGeneric" parent="Chars/Input/HBoxContainer/ButtonCharacter4" index="1" unique_id=398400624]
 focus_neighbor_left = NodePath("../../ButtonCharacter3/ButtonGeneric")
 text = "JOE HOOPS"
 
 [node name="OnFinished" type="Control" parent="Chars" unique_id=1928505517]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

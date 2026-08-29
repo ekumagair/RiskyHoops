@@ -27,7 +27,7 @@ func _ready() -> void:
 	on_finish()
 
 func _process(delta : float) -> void:
-	if followActiveCamera and global.gManager.activeCamAngle != null:
+	if followActiveCamera and global.gManager.camera != null:
 		global_position = global.gManager.camera.global_position
 
 func on_finish() -> void:

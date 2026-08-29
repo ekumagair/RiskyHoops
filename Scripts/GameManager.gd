@@ -9,6 +9,14 @@ extends Node
 @onready var environment : Node3D = get_parent().get_node("Environment")
 @onready var objects : Node3D = get_parent().get_node("Objects")
 
+enum GameState
+{
+	DEFAULT,
+	ORGANIZE,
+	ENDED
+}
+
+var gameState : GameState = GameState.ORGANIZE
 var characters : Array[Node]
 var charPosLimit : Vector3 = Vector3(13, 100, 7)
 var score : Array[int]
@@ -21,18 +29,20 @@ var characterPrefabs = {
 	-1: null,
 	00: preload("res://Prefabs/character.tscn"),
 	01: preload("res://Prefabs/character_rohan.tscn"),
-	02: preload("res://Prefabs/character.tscn"),
-	03: preload("res://Prefabs/character.tscn"),
-	04: preload("res://Prefabs/character.tscn")
+	02: preload("res://Prefabs/character_skeleton.tscn"),
+	03: preload("res://Prefabs/character_warrior.tscn"),
+	04: preload("res://Prefabs/character_hoops.tscn")
 }
 
 var attackPrefabs = {
 	-1: null,
-	00: preload("res://Prefabs/knife.tscn"),
+	00: preload("res://Prefabs/projectile_knife.tscn"),
+	01: preload("res://Prefabs/projectile_axe.tscn"),
 }
 
 func _ready() -> void:
 	global.gManager = self
+	global.mainMenuFirstScreenOverride = "Main"
 	get_characters()
 	
 	if len(songs) > 0:
@@ -45,8 +55,11 @@ func _ready() -> void:
 	config_characters()
 	config_rules()
 	reduce_time()
+	
+	organize_to_center()
 
 func config_rules():
+	quarter = 1
 	timeMin = options.quarterDuration
 	timeSec = 0
 	timeSecTenth = 0
@@ -57,12 +70,79 @@ func config_characters():
 	
 	delete_characters()
 	
-	spawn_character_prefab(global.charIds[0], Vector3(-3, 0, -3), 0, 0)
-	spawn_character_prefab(global.charIds[1], Vector3(3, 0, -3), -1, 1)
-	spawn_character_prefab(global.charIds[2], Vector3(-3, 0, 3), -1, 0)
-	spawn_character_prefab(global.charIds[3], Vector3(3, 0, 3), -1, 1)
+	spawn_character_prefab(global.charIds[0], Vector3(-9, 0, -3), 0, 0)
+	spawn_character_prefab(global.charIds[1], Vector3(9, 0, -3), -1, 1)
+	spawn_character_prefab(global.charIds[2], Vector3(-9, 0, 3), -1, 0)
+	spawn_character_prefab(global.charIds[3], Vector3(9, 0, 3), -1, 1)
 	
 	get_characters()
+
+func organize_to(pos : Array[Vector3]) -> void:
+	gameState = GameState.ORGANIZE
+	force_characters_as_cpu(true)
+	cancel_character_targets()
+	
+	await get_tree().create_timer(0.1).timeout
+	
+	get_characters()
+	
+	characters[0].targetWalkPos = pos[0]
+	characters[1].targetWalkPos = pos[1]
+	characters[2].targetWalkPos = pos[2]
+	characters[3].targetWalkPos = pos[3]
+	
+	await wait_characters_organization()
+	await get_tree().create_timer(0.3).timeout
+	
+	force_characters_as_cpu(false)
+	gameState = GameState.DEFAULT
+
+func organize_to_center():
+	get_characters()
+	
+	var pos : Array[Vector3]
+	pos.clear()
+	pos.append(Vector3(-3, 0, -3))
+	pos.append(Vector3(3, 0, -3))
+	pos.append(Vector3(-3, 0, 3))
+	pos.append(Vector3(3, 0, 3))
+	
+	characters[0].targetLookPos = 0
+	characters[1].targetLookPos = 0
+	characters[2].targetLookPos = 0
+	characters[3].targetLookPos = 0
+	
+	organize_to(pos)
+
+func organize_to_basket(team : int):
+	get_characters()
+	
+	var basket : Basket = get_basket(team)
+	var pos : Array[Vector3]
+	pos.clear()
+	
+	if team == 0:
+		pos.append(basket.positions[0].global_position)
+		pos.append(basket.positions[1].global_position)
+		pos.append(basket.positions[2].global_position)
+		pos.append(basket.positions[3].global_position)
+		
+		characters[0].targetLookPos = -10
+		characters[1].targetLookPos = -10
+		characters[2].targetLookPos = -10
+		characters[3].targetLookPos = -10
+	elif team == 1:
+		pos.append(basket.positions[1].global_position)
+		pos.append(basket.positions[0].global_position)
+		pos.append(basket.positions[3].global_position)
+		pos.append(basket.positions[2].global_position)
+		
+		characters[0].targetLookPos = 10
+		characters[1].targetLookPos = 10
+		characters[2].targetLookPos = 10
+		characters[3].targetLookPos = 10
+	
+	organize_to(pos)
 
 func get_basket(team : int) -> Basket:
 	for i in len(baskets):
@@ -101,17 +181,52 @@ func delete_characters() -> void:
 	for i in len(characters):
 		characters[i].queue_free()
 
+func force_characters_as_cpu(enable : bool) -> void:
+	get_characters()
+	for i in len(characters):
+		characters[i].forceCpuControl = enable
+
 func release_ball(ball : Ball) -> void:
 	get_characters()
 	for i in len(characters):
 		if characters[i].heldBall == ball:
-			characters[i].heldBall = null
+			characters[i].release_ball(Vector3(0, 0, 0))
+	
+	ball.holderPrev = null
+	ball.forbidCharacter = null
+
+func teleport_ball_to(pos : Vector3) -> void:
+	var ball : Ball = global.gManager.ball
+	
+	release_ball(ball)
+	ball.set_deferred("global_position", pos)
+
+func all_characters_reached_target() -> bool:
+	for i in len(characters):
+		if characters[i] == null or !characters[i].targetWalkReached:
+			return false
+	
+	return true
+
+func cancel_character_targets() -> void:
+	for i in len(characters):
+		characters[i].bot_cancel_target_pos()
+
+func wait_characters_organization():
+	await get_tree().create_timer(1).timeout
+	
+	while !all_characters_reached_target():
+		await get_tree().process_frame
 
 func get_attack_prefab(attack : GameConstants.Attacks):
 	return attackPrefabs[int(attack)]
 
 func reduce_time():
 	await get_tree().create_timer(0.1).timeout
+	
+	if gameState != GameState.DEFAULT:
+		reduce_time()
+		return
 	
 	if timeSecTenth > 0:
 		timeSecTenth -= 1
@@ -127,6 +242,24 @@ func reduce_time():
 				timeMin -= 1
 	
 	if timeMin <= 0 and timeSec <= 0:
-		quarter += 1
+		if quarter < 4:
+			end_quarter()
+		else:
+			end_match()
 	
 	reduce_time()
+
+func end_quarter():
+	quarter += 1
+	organize_to_center()
+	teleport_ball_to(Vector3(0, 0.2, 0))
+	global.gCanvas.organizeLabel.text = "END OF QUARTER"
+	
+	timeMin = options.quarterDuration
+	timeSec = 0
+	timeSecTenth = 0
+	
+func end_match():
+	quarter = 4
+	gameState = GameState.ENDED
+	global.gCanvas.organizeLabel.text = "END OF MATCH"

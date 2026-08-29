@@ -124,6 +124,7 @@ _data = {
 [node name="CharacterRohan" unique_id=2078396322 instance=ExtResource("1_245he")]
 attackType = 0
 attackPrefab = 0
+attackCooldown = 0.2
 
 [node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)

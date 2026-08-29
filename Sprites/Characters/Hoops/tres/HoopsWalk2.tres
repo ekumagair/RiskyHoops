@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://degf2apudda4i"]
+
+[ext_resource type="Texture2D" uid="uid://delqrd3lvtqjd" path="res://Sprites/Characters/Hoops/JoeHoopsWalk2.png" id="1_mv7dg"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_mv7dg")
+texture_filter = 0
+texture_repeat = false

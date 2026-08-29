@@ -21,7 +21,8 @@ enum AttackTypes
 enum Attacks
 {
 	NONE = -1,
-	KNIFE = 0
+	KNIFE = 0,
+	AXE = 1
 }
 
 # Save system.

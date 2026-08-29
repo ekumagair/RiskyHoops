@@ -7,8 +7,11 @@ extends CanvasLayer
 @onready var timeMin : Label = $Control/Scoreboard/TimeMin
 @onready var timeSec : Label = $Control/Scoreboard/TimeSec
 @onready var quarterLabel : Label = $Control/Scoreboard/Quarter
+@onready var organizeLabel : Label = $Control/Organize/Label
 
 func _ready() -> void:
+	global.gCanvas = self
+	organizeLabel.text = ""
 	update_text()
 
 func _process(delta : float) -> void:
@@ -32,3 +35,10 @@ func update_text():
 	else:
 		for i in len(playerName):
 			playerName[i].text = "PLAYER " + str(i)
+	
+	quarterLabel.text = "QUARTER " + str(global.gManager.quarter)
+	
+	organizeLabel.visible = global.gManager.gameState == GameManager.GameState.ORGANIZE
+	
+	if !organizeLabel.visible:
+		organizeLabel.text = ""

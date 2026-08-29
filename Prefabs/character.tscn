@@ -17,8 +17,14 @@ radial_segments = 16
 [sub_resource type="BoxShape3D" id="BoxShape3D_41u4d"]
 size = Vector3(1, 1.5, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_7iube"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ulf0j"]
+radius = 6.0
+
 [node name="Character" type="CharacterBody3D" unique_id=2078396322 groups=["characters"]]
 collision_layer = 2
+collision_mask = 65
 script = ExtResource("1_7iube")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=610986061]
@@ -54,4 +60,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 shape = SubResource("BoxShape3D_41u4d")
 debug_color = Color(0, 0.6, 0.69803923, 1)
 
+[node name="Melee" type="Node3D" parent="." unique_id=1856836630]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Area3D" type="Area3D" parent="Melee" unique_id=1724889913]
+collision_layer = 32
+collision_mask = 2
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Melee/Area3D" unique_id=1850014125]
+shape = SubResource("SphereShape3D_7iube")
+debug_color = Color(0.9823987, 0, 0.3667355, 0.41960785)
+
+[node name="Sight" type="Node3D" parent="." unique_id=1172553956]
+
+[node name="Area3D" type="Area3D" parent="Sight" unique_id=1647699728]
+collision_layer = 128
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Sight/Area3D" unique_id=868171757]
+shape = SubResource("SphereShape3D_ulf0j")
+debug_color = Color(0.4135568, 0.5964361, 0.31195307, 0.41960785)
+
 [connection signal="area_entered" from="BallHold/Area3D" to="." method="_on_ball_area_entered"]
+[connection signal="body_entered" from="Melee/Area3D" to="." method="_melee_hit"]

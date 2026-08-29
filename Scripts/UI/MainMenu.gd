@@ -16,6 +16,9 @@ var currentCharIndex : int = 0
 var isCpuSelecting : bool = false
 
 func _ready() -> void:
+	if !global.mainMenuFirstScreenOverride.is_empty() and global.mainMenuFirstScreenOverride != "":
+		screenDefault = global.mainMenuFirstScreenOverride
+	
 	base_ready()
 	mainScreen = get_screen("Main")
 	charsScreen = get_screen("Chars")
@@ -30,6 +33,9 @@ func _process(delta : float) -> void:
 			mainScreen.cursor.global_position.y = global.get_focus_owner().global_position.y
 		if charsScreen.cursor != null and charsScreen.isOpen:
 			charsScreen.cursor.global_position.x = global.get_focus_owner().global_position.x + 140
+	
+	if screenCurrent == charsScreen and screenCurrent.isOpen and Input.is_action_just_pressed("ui_cancel"):
+		go_to_main()
 
 func go_to_main():
 	go_to_screen("Main")
@@ -68,7 +74,7 @@ func let_cpu_select_character():
 	isCpuSelecting = true
 	global.release_focus()
 	
-	var possibleChars : Array[ButtonCharacter] = btnChars.duplicate(true)
+	var possibleChars : Array[ButtonCharacter] = btnChars
 	var possibleCharIndex : int = 0
 	var selectedChar : ButtonCharacter
 	
@@ -80,12 +86,19 @@ func let_cpu_select_character():
 			
 			if global.charIds.has(possibleChars[possibleCharIndex].character):
 				possibleChars.erase(possibleChars[possibleCharIndex])
-			if possibleChars[possibleCharIndex].chosen:
+			elif possibleChars[possibleCharIndex].chosen:
+				possibleChars.erase(possibleChars[possibleCharIndex])
+			
+			if global.charIds.has(GameConstants.Characters.SKELETON) and possibleChars[possibleCharIndex].character == GameConstants.Characters.SKELETON:
 				possibleChars.erase(possibleChars[possibleCharIndex])
 			
 			possibleCharIndex += 1
 	
-	selectedChar = possibleChars.pick_random()
+	if len(possibleChars) > 1 and len(global.charIds) < 3:
+		selectedChar = possibleChars.pick_random()
+	else:
+		selectedChar = possibleChars[0]
+	
 	selectedChar.chosen = true
 	global.charIds.append(selectedChar.character)
 	currentCharIndex += 1

@@ -24,6 +24,9 @@ func _process(delta : float) -> void:
 	update_animation()
 
 func _physics_process(delta : float) -> void:
+	if global.gManager.gameState == GameManager.GameState.ENDED:
+		return
+	
 	if is_on_floor() and forbidCharacter != null:
 		forbidCharacter = null
 	if scoring and forbidCharacter != null:
@@ -49,8 +52,12 @@ func gravity(delta : float):
 	elif absf(velocity.y) > 4.0:
 		translate(Vector3(0, 0.2, 0))
 		velocity.y *= absf(fallSpeedBounceFactor) * -1
+		bounce_sound()
 	else:
 		velocity.y = 0
+
+func bounce_sound():
+	audio.play_sound(Audio.Sound.STOMP, global_position)
 
 func horizontal_velocity(delta : float):
 	if slippery and is_on_floor():

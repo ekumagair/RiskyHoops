@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://da6n33qxucsdp"]
+
+[ext_resource type="PackedScene" uid="uid://vy75kaj4ln4o" path="res://Prefabs/projectile.tscn" id="1_ij1ib"]
+
+[node name="Axe" unique_id=335571258 instance=ExtResource("1_ij1ib")]
+fallSpeed = 20.0

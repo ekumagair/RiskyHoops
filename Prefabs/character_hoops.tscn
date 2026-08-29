@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://cmq6uot256apr"]
+
+[ext_resource type="PackedScene" uid="uid://c5myae0fhujen" path="res://Prefabs/character.tscn" id="1_8rmn2"]
+[ext_resource type="Material" uid="uid://c8jykbe5a4hf0" path="res://Sprites/Characters/Hoops/tres/HoopsIdle1.tres" id="2_2bmwx"]
+[ext_resource type="Material" uid="uid://bck13qsjqwnso" path="res://Sprites/Characters/Hoops/tres/HoopsJump1.tres" id="3_5taac"]
+[ext_resource type="Material" uid="uid://c018yqk4jsstk" path="res://Sprites/Characters/Hoops/tres/HoopsWalk1.tres" id="3_l2rf8"]
+[ext_resource type="Material" uid="uid://degf2apudda4i" path="res://Sprites/Characters/Hoops/tres/HoopsWalk2.tres" id="4_5taac"]
+[ext_resource type="Material" uid="uid://d0oouopog8pob" path="res://Sprites/Characters/Hoops/tres/HoopsWalk3.tres" id="5_1ntaf"]
+[ext_resource type="Material" uid="uid://bopsjwffhhfdr" path="res://Sprites/Characters/Hoops/tres/HoopsWalk4.tres" id="6_mojcl"]
+[ext_resource type="Material" uid="uid://c8c4d2vrthaxk" path="res://Sprites/Characters/Hoops/tres/HoopsWalk5.tres" id="7_hfq8w"]
+[ext_resource type="Material" uid="uid://b345bp14r0qtj" path="res://Sprites/Characters/Hoops/tres/HoopsWalk6.tres" id="8_c7rb5"]
+[ext_resource type="Material" uid="uid://bvj5hjffhv6ep" path="res://Sprites/Characters/Hoops/tres/HoopsWalk7.tres" id="9_1gx25"]
+[ext_resource type="Material" uid="uid://bxgmlq1hpqcws" path="res://Sprites/Characters/Hoops/tres/HoopsWalk8.tres" id="10_rg08o"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_yy4hu"]
+size = Vector2(4, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq4ix"]
+shading_mode = 0
+
+[sub_resource type="Animation" id="Animation_v2pme"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("StandardMaterial3D_mq4ix")]
+}
+
+[sub_resource type="Animation" id="Animation_mvgva"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("2_2bmwx")]
+}
+
+[sub_resource type="Animation" id="Animation_l2rf8"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("3_5taac")]
+}
+
+[sub_resource type="Animation" id="Animation_frtpc"]
+resource_name = "walk"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0),
+"update": 1,
+"values": [ExtResource("3_l2rf8"), ExtResource("4_5taac"), ExtResource("5_1ntaf"), ExtResource("6_mojcl"), ExtResource("7_hfq8w"), ExtResource("8_c7rb5"), ExtResource("9_1gx25"), ExtResource("10_rg08o")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8iay5"]
+_data = {
+&"RESET": SubResource("Animation_v2pme"),
+&"idle": SubResource("Animation_mvgva"),
+&"jump": SubResource("Animation_l2rf8"),
+&"walk": SubResource("Animation_frtpc")
+}
+
+[node name="CharacterHoops" unique_id=2078396322 instance=ExtResource("1_8rmn2")]
+moveSpeed = 6.5
+jumpVelocity = 12.0
+attackType = 1
+attackDuration = 0.3
+attackCooldown = 3.0
+
+[node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)
+mesh = SubResource("PlaneMesh_yy4hu")
+surface_material_override/0 = SubResource("StandardMaterial3D_mq4ix")
+
+[node name="AnimationPlayer" parent="Model" parent_id_path=PackedInt32Array(1045958) index="1" unique_id=65148196]
+libraries/ = SubResource("AnimationLibrary_8iay5")
+autoplay = &"idle"

@@ -1,7 +1,9 @@
 extends Node
 
 var gManager : GameManager
+var gCanvas : GameCanvas
 var charIds : Array[GameConstants.Characters]
+var mainMenuFirstScreenOverride : String = ""
 
 var versionBase : String
 var version : String

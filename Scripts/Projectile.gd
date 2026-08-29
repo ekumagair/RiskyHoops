@@ -1,13 +1,29 @@
 class_name Projectile
 extends Attack
 
+@export var fallSpeed : float = 0.0
+
 var velocity : Vector3 = Vector3(0, 0, 0)
 
 func _process(delta: float) -> void:
 	process_auto_delete()
 
 func _physics_process(delta : float) -> void:
+	gravity(delta)
 	translate(velocity * delta)
+
+func gravity(delta : float):
+	if fallSpeed == 0.0:
+		return
+	
+	if !is_on_floor():
+		velocity.y -= fallSpeed * delta
+	else:
+		velocity.y = 0
+		queue_free()
+
+func is_on_floor():
+	return global_position.y <= 0.0
 
 func process_auto_delete() -> void:
 	if velocity.x > 0 and global_position.x > global.gManager.charPosLimit.x * 2:

@@ -36,8 +36,12 @@ size = Vector3(0.2, 0.5, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_rbbdn"]
 size = Vector3(3, 3, 3)
 
-[node name="Basket" type="Node3D" unique_id=470985751]
+[sub_resource type="BoxShape3D" id="BoxShape3D_r3w4y"]
+size = Vector3(3, 8, 2)
+
+[node name="Basket" type="Node3D" unique_id=470985751 node_paths=PackedStringArray("positions")]
 script = ExtResource("1_rbbdn")
+positions = [NodePath("Pos/MarkerFriendMain"), NodePath("Pos/MarkerEnemyMain"), NodePath("Pos/MarkerFriendSec"), NodePath("Pos/MarkerEnemySec")]
 
 [node name="Model" type="Node3D" parent="." unique_id=1857844372]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, 0)
@@ -97,5 +101,28 @@ collision_mask = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 4, 0)
 shape = SubResource("BoxShape3D_rbbdn")
 debug_color = Color(0.654902, 0.5176471, 0, 0.1254902)
+
+[node name="CharacterBlocker" type="StaticBody3D" parent="." unique_id=829550608]
+collision_layer = 64
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBlocker" unique_id=1748182947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.85293317, 7.3090544, 0)
+shape = SubResource("BoxShape3D_r3w4y")
+debug_color = Color(0.85050595, 0, 0.900297, 0.2)
+
+[node name="Pos" type="Node3D" parent="." unique_id=351787859]
+
+[node name="MarkerFriendMain" type="Node3D" parent="Pos" unique_id=1650915407]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+
+[node name="MarkerFriendSec" type="Node3D" parent="Pos" unique_id=530126344]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0)
+
+[node name="MarkerEnemyMain" type="Node3D" parent="Pos" unique_id=1029126912]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -2)
+
+[node name="MarkerEnemySec" type="Node3D" parent="Pos" unique_id=2140707599]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 2)
 
 [connection signal="area_entered" from="Target/ScoreArea3D" to="." method="_on_ball_area_entered"]

@@ -9,10 +9,13 @@ extends CharacterBody3D
 @export var attackType : GameConstants.AttackTypes = GameConstants.AttackTypes.NONE
 @export var attackPrefab : GameConstants.Attacks = GameConstants.Attacks.NONE
 @export var attackDuration : float = 0.25
+@export var attackCooldown : float = 0.0
 
 @onready var ballHold : Node3D = $BallHold
 @onready var model : Node3D = $Model
 @onready var modelAnim : AnimationPlayer = $Model/AnimationPlayer
+@onready var meleeArea : Area3D = $Melee/Area3D
+@onready var sightArea : Area3D = $Sight/Area3D
 
 var heldBall : Ball
 var teammate : Character
@@ -21,30 +24,39 @@ var oppositeBasket : Basket
 var charDirection : Vector3 = Vector3(1, 1, 0)
 var charDirectionPressed : Vector3 = Vector3(0, 0, 0)
 var targetWalkPos : Vector3 = Vector3(0, 0, 0)
-var targetWalkPosRange : float
+var targetWalkPosRange : float = 0.45
+var targetWalkReached : bool = false
+var targetLookPos : float = 0.0
+var forceCpuControl : bool = false
 var attacking : bool = false
+var attackCooldownTimer : float = 0.0
 var stunned : bool = false
+var seenCharacters : Array[Node3D]
 
 func _ready() -> void:
-	targetWalkPosRange = moveSpeed * 0.09
 	teammate = get_teammate()
 	friendlyBasket = global.gManager.get_basket(team)
 	oppositeBasket = global.gManager.get_basket(global.get_opposite_team(team))
+	
+	melee_enable(false)
+	seenCharacters.clear()
 
 func _process(delta : float) -> void:
-	if playerId > -1:
+	if playerId > -1 and !forceCpuControl:
 		player_actions_process(delta)
 	else:
 		bot_actions_process(delta)
 		bot_search_target_pos()
 	
 	set_char_dir_from_velocity()
+	set_char_dir_to_pos()
 	update_animation()
+	update_attack_cooldown(delta)
 
 func _physics_process(delta : float) -> void:
 	move_common_process(delta)
 	
-	if playerId > -1:
+	if playerId > -1 and !forceCpuControl:
 		move_player_process(delta)
 	else:
 		move_bot_process(delta)
@@ -105,6 +117,9 @@ func get_teammate() -> Character:
 
 #region Player Logic
 func move_player_process(delta : float) -> void:
+	if global.gManager.gameState != GameManager.GameState.DEFAULT:
+		return
+	
 	var idStr : String = str(playerId + 1)
 	
 	var input = Input.get_vector(
@@ -115,6 +130,8 @@ func move_player_process(delta : float) -> void:
 	)
 	
 	var direction = Vector3(input.x, 0.0, input.y)
+	
+	targetWalkReached = false
 	
 	velocity.x = direction.x * moveSpeed * get_horizontal_speed_factor()
 	velocity.z = direction.z * moveSpeed * get_horizontal_speed_factor()
@@ -127,6 +144,9 @@ func move_player_process(delta : float) -> void:
 	move_and_slide()
 
 func player_actions_process(delta : float) -> void:
+	if global.gManager.gameState != GameManager.GameState.DEFAULT:
+		return
+	
 	var idStr : String = str(playerId + 1)
 	
 	if Input.is_action_just_pressed("ball_p" + idStr):
@@ -150,6 +170,8 @@ func move_bot_process(delta : float) -> void:
 	elif targetWalkPos.z < global_position.z and global_position.z - targetWalkPos.z > targetWalkPosRange:
 		input.z = -1
 	
+	targetWalkReached = input.x == 0 and input.z == 0
+	
 	var direction = Vector3(input.x, 0.0, input.z)
 	
 	velocity.x = direction.x * moveSpeed * get_horizontal_speed_factor()
@@ -160,9 +182,28 @@ func move_bot_process(delta : float) -> void:
 	move_and_slide()
 
 func bot_actions_process(delta : float) -> void:
+	if global.gManager.gameState != GameManager.GameState.DEFAULT:
+		return
+	
 	if global.gManager.ball.holder == self:
 		if global_position.distance_to(oppositeBasket.ballTarget.global_position) < 10 and randi_range(0, 10) == 0:
 			bot_shoot_ball()
+	
+	if Engine.get_process_frames() % 10 == 0:
+		seenCharacters.clear()
+		seenCharacters = sightArea.get_overlapping_bodies()
+	
+	var shouldAttack : bool = false
+	
+	for i in len(seenCharacters):
+		if seenCharacters[i].team != team:
+			shouldAttack = true
+	
+	if shouldAttack and global.gManager.ball.holder != self and !attacking and !stunned and randi_range(0, 30) == 0:
+		attack_action()
+		
+		if is_on_floor() and randi_range(0, 3) == 0:
+			jump_action()
 
 func bot_shoot_ball():
 	if global.gManager.ball.holder != self or !is_on_floor():
@@ -173,6 +214,9 @@ func bot_shoot_ball():
 	ball_action()
 
 func bot_search_target_pos() -> void:
+	if global.gManager.gameState != GameManager.GameState.DEFAULT:
+		return
+	
 	var newTargetWalkPos : Vector3
 	var ball : Ball = global.gManager.ball
 	var holder : Character = ball.holder
@@ -209,7 +253,10 @@ func get_horizontal_speed_factor() -> float:
 	if !is_on_floor():
 		toReturn *= 0.5
 	if attacking and is_on_floor():
-		toReturn *= 0.0
+		if attackType == GameConstants.AttackTypes.PROJECTILE:
+			toReturn *= 0.0
+		elif attackType == GameConstants.AttackTypes.MELEE:
+			toReturn *= 2.0
 	if stunned:
 		toReturn *= 0.0 if !is_on_floor() else 0.4
 	
@@ -229,6 +276,9 @@ func set_char_dir_from_input(delta : float, direction : Vector3) -> void:
 		charDirectionPressed.z = 0
 
 func set_char_dir_from_velocity():
+	if global.gManager.gameState == GameManager.GameState.ORGANIZE and !targetWalkReached:
+		return
+	
 	if velocity.x > 0:
 		charDirection.x = 1
 	elif velocity.x < 0:
@@ -243,6 +293,15 @@ func set_char_dir_from_velocity():
 		charDirection.z = 1
 	elif velocity.z < 0:
 		charDirection.z = -1
+
+func set_char_dir_to_pos():
+	if global.gManager.gameState != GameManager.GameState.ORGANIZE or !targetWalkReached:
+		return
+	
+	if global_position.x > targetLookPos:
+		charDirection.x = -1
+	elif global_position.x < targetLookPos:
+		charDirection.x = 1
 
 func is_facing_position(originPos : float, originDir : float, targetPos : float) -> bool:
 	if targetPos < originPos and originDir < 0:
@@ -328,21 +387,35 @@ func play_animation(anim : String):
 
 #region Attack
 func attack_action():
-	if attacking or stunned:
-		return
-	if attackType == GameConstants.AttackTypes.NONE or attackPrefab == GameConstants.Attacks.NONE:
+	if attacking or stunned or attackCooldownTimer > 0.0:
 		return
 	if heldBall != null:
 		return
+	if attackType == GameConstants.AttackTypes.NONE:
+		return
+	if attackType == GameConstants.AttackTypes.MELEE and velocity.x == 0 and velocity.z == 0:
+		return
 	
+	if attackType == GameConstants.AttackTypes.PROJECTILE:
+		attack_projectile()
+	elif attackType == GameConstants.AttackTypes.MELEE:
+		melee_enable(true)
+	
+	attack_delay()
+
+func attack_projectile():
 	var speed : float = 0
 	var dir : Vector3 = charDirection
 	
 	match attackPrefab:
 		GameConstants.Attacks.KNIFE:
-			speed = 15
+			speed = 12
 			dir.y = 0
 			dir.z = 0
+		GameConstants.Attacks.AXE:
+			speed = 6
+			dir.y = 1.33
+			dir.z *= 1 if charDirectionPressed.z > 0.0 else 0
 	
 	var instance = global.gManager.get_attack_prefab(attackPrefab).instantiate()
 	
@@ -359,15 +432,41 @@ func attack_action():
 		instance.model.scale.x = 1
 	else:
 		instance.model.scale.x = -1
-	
-	attack_delay()
 
 func attack_delay():
 	attacking = true
+	attackCooldownTimer = attackCooldown
 	
 	await get_tree().create_timer(attackDuration).timeout
 	
+	melee_enable(false)
 	attacking = false
+
+func update_attack_cooldown(delta) -> void:
+	if !attacking and attackCooldownTimer > 0.0:
+		attackCooldownTimer -= delta
+	
+	if attackCooldownTimer < 0.0:
+		attackCooldownTimer = 0.0
+
+func melee_enable(enable : bool) -> void:
+	meleeArea.set_deferred("monitoring", enable)
+	meleeArea.set_deferred("monitorable", enable)
+
+func _melee_hit(body: Node3D) -> void:
+	if !attacking or stunned or body == null or body == self:
+		return
+	if velocity.x == 0 and velocity.z == 0:
+		return
+	
+	var hitChar : Character = body as Character
+	
+	if hitChar == null:
+		return
+	if hitChar.stunned or hitChar.team == team:
+		return
+	
+	hitChar.stun()
 
 func stun():
 	if stunned:
