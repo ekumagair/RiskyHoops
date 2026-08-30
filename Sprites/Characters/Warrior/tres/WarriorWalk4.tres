@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bvah2a6nsp22c"]
+
+[ext_resource type="Texture2D" uid="uid://b3rw6bncmhg1w" path="res://Sprites/Characters/Warrior/WarriorWalk4.png" id="1_fjgh0"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_fjgh0")
+texture_filter = 0
+texture_repeat = false

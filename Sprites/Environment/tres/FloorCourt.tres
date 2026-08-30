@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://d3q8lt70lejgj"]
+
+[ext_resource type="Texture2D" uid="uid://cw73rdfpad3dq" path="res://Sprites/Environment/FloorCourt.png" id="1_c77lr"]
+
+[resource]
+albedo_texture = ExtResource("1_c77lr")
+texture_filter = 0
+texture_repeat = false

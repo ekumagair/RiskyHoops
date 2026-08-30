@@ -25,7 +25,7 @@ var oppositeBasket : Basket
 var charDirection : Vector3 = Vector3(1, 1, 0)
 var charDirectionPressed : Vector3 = Vector3(0, 0, 0)
 var targetWalkPos : Vector3 = Vector3(0, 0, 0)
-var targetWalkPosRange : float = 0.45
+var targetWalkPosRange : float = 0.3
 var targetWalkReached : bool = false
 var targetLookPos : float = 0.0
 var forceCpuControl : bool = false
@@ -498,6 +498,10 @@ func stun():
 	velocity = Vector3(0, 6, 0)
 	
 	for i in 10:
+		if global.gManager.gameState != GameManager.GameState.DEFAULT:
+			model.show()
+			continue
+		
 		model.hide()
 		await get_tree().create_timer(0.1).timeout
 		model.show()

@@ -126,12 +126,21 @@ theme_override_font_sizes/font_size = 64
 text = "CHARACTER NAME"
 horizontal_alignment = 1
 
+[node name="AndLabel" type="Label" parent="Result/Input" unique_id=1473577366]
+layout_mode = 0
+offset_left = 896.0
+offset_top = 496.0
+offset_right = 1920.0
+offset_bottom = 528.0
+text = "AND"
+horizontal_alignment = 1
+
 [node name="Winner2" type="Label" parent="Result/Input" unique_id=1892334490]
 layout_mode = 0
 offset_left = 896.0
-offset_top = 512.0
+offset_top = 576.0
 offset_right = 1920.0
-offset_bottom = 576.0
+offset_bottom = 640.0
 theme_override_font_sizes/font_size = 64
 text = "CHARACTER NAME"
 horizontal_alignment = 1

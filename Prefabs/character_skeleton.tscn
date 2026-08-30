@@ -93,6 +93,7 @@ attackCooldown = 1.5
 [node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)
 mesh = SubResource("PlaneMesh_72afu")
+surface_material_override/0 = SubResource("StandardMaterial3D_mq4ix")
 
 [node name="AnimationPlayer" parent="Model" parent_id_path=PackedInt32Array(1045958) index="1" unique_id=65148196]
 libraries/ = SubResource("AnimationLibrary_d8cam")

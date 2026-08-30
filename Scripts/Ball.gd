@@ -129,6 +129,11 @@ func update_animation():
 			modelAnim.play("jump")
 	else:
 		modelAnim.play("default")
+	
+	if global.gManager.gameState == GameManager.GameState.ENDED:
+		modelAnim.speed_scale = 0.0
+	else:
+		modelAnim.speed_scale = 1.0
 
 func _on_slippery_area_entered(area: Area3D) -> void:
 	slippery = true

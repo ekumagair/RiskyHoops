@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://bv5pq2y7yk2tc"]
+
+[ext_resource type="Texture2D" uid="uid://c1jq8ge6b73x1" path="res://Sprites/Background/RiskyMountains/RiskyMountainsFG.png" id="1_vc0vg"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_vc0vg")
+texture_filter = 0
+texture_repeat = false

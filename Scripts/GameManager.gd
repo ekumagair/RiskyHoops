@@ -289,9 +289,9 @@ func end_match():
 		global.winners.append(characters[3].characterId)
 		global.winnerColor = Color(1, 0, 0, 1)
 	
-	audio.fade_music_to_silence()
-	
 	await get_tree().create_timer(3).timeout
+	
+	audio.fade_music_to_silence(0.75)
 	
 	await global.gCanvas.end_match()
 	

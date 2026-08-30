@@ -1,0 +1,153 @@
+[gd_scene format=3 uid="uid://btu4jo7m8myjx"]
+
+[ext_resource type="Script" uid="uid://c7kbmqnrl1bqh" path="res://Scripts/GameManager.gd" id="1_j1g5h"]
+[ext_resource type="PackedScene" uid="uid://dr5nh511i8vuq" path="res://Prefabs/UI/game_canvas.tscn" id="2_q7b16"]
+[ext_resource type="Material" uid="uid://d3q8lt70lejgj" path="res://Sprites/Environment/tres/FloorCourt.tres" id="3_b100i"]
+[ext_resource type="Material" uid="uid://dbg8xovjwvl0n" path="res://Sprites/Background/RiskyMountains/tres/RiskyMountainsBG.tres" id="3_om7yl"]
+[ext_resource type="PackedScene" uid="uid://b6qiamjwmhp8a" path="res://Prefabs/basket.tscn" id="3_s1cnu"]
+[ext_resource type="Material" uid="uid://bv5pq2y7yk2tc" path="res://Sprites/Background/RiskyMountains/tres/RiskyMountainsFG.tres" id="4_j1g5h"]
+[ext_resource type="Material" uid="uid://ce4yl3w7643df" path="res://Sprites/Environment/tres/FloorOutOfBounds.tres" id="4_t7c5m"]
+[ext_resource type="PackedScene" uid="uid://bpjxomayh5b5g" path="res://Prefabs/ball.tscn" id="6_4g3ly"]
+[ext_resource type="PackedScene" uid="uid://os3x2wtlkuft" path="res://Prefabs/camera_manager.tscn" id="7_nxgbv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mq4ix"]
+
+[sub_resource type="Sky" id="Sky_8gieq"]
+sky_material = SubResource("ProceduralSkyMaterial_mq4ix")
+
+[sub_resource type="Environment" id="Environment_sqj7u"]
+background_mode = 2
+sky = SubResource("Sky_8gieq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_t7c5m"]
+size = Vector2(28, 15)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mq4ix"]
+size = Vector3(28, 1, 15)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mq4ix"]
+size = Vector2(56, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fuxmd"]
+size = Vector3(40, 20, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fqdin"]
+size = Vector3(8, 20, 20)
+
+[sub_resource type="QuadMesh" id="QuadMesh_j1g5h"]
+size = Vector2(80, 32)
+
+[node name="MapRiskyMountains" type="Node3D" unique_id=418248219]
+
+[node name="GameManager" type="Node" parent="." unique_id=248453189 node_paths=PackedStringArray("baskets", "ball")]
+script = ExtResource("1_j1g5h")
+baskets = [NodePath("../Environment/Baskets/Basket"), NodePath("../Environment/Baskets/Basket2")]
+ball = NodePath("../Objects/Ball")
+songs = Array[int]([4, 5, 6, 10])
+
+[node name="GameCanvas" parent="." unique_id=795019234 instance=ExtResource("2_q7b16")]
+
+[node name="Settings" type="Node3D" parent="." unique_id=271052129]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Settings" unique_id=394146146]
+environment = SubResource("Environment_sqj7u")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Settings" unique_id=1173126229]
+transform = Transform3D(1, 0, 0, 0, -0.021134377, 0.9997767, 0, -0.9997767, -0.021134377, 0, 0, 30)
+shadow_enabled = true
+
+[node name="Environment" type="Node3D" parent="." unique_id=702086546]
+
+[node name="Court" type="MeshInstance3D" parent="Environment" unique_id=630745436]
+mesh = SubResource("PlaneMesh_t7c5m")
+surface_material_override/0 = ExtResource("3_b100i")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Environment/Court" unique_id=743903310]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/Court/StaticBody3D" unique_id=1091503482]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_mq4ix")
+
+[node name="OutOfBounds" type="MeshInstance3D" parent="Environment" unique_id=234743759]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.01, 0)
+mesh = SubResource("PlaneMesh_mq4ix")
+surface_material_override/0 = ExtResource("4_t7c5m")
+
+[node name="InvisibleWalls" type="Node3D" parent="Environment" unique_id=1205282907]
+
+[node name="StaticBody3D_N" type="StaticBody3D" parent="Environment/InvisibleWalls" unique_id=9779181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, -11)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/InvisibleWalls/StaticBody3D_N" unique_id=778320610]
+shape = SubResource("BoxShape3D_fuxmd")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="StaticBody3D_S" type="StaticBody3D" parent="Environment/InvisibleWalls" unique_id=1381614170]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 11)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/InvisibleWalls/StaticBody3D_S" unique_id=1600284602]
+shape = SubResource("BoxShape3D_fuxmd")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="StaticBody3D_W" type="StaticBody3D" parent="Environment/InvisibleWalls" unique_id=1988601307]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 10, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/InvisibleWalls/StaticBody3D_W" unique_id=219957605]
+shape = SubResource("BoxShape3D_fqdin")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="StaticBody3D_E" type="StaticBody3D" parent="Environment/InvisibleWalls" unique_id=570302938]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 10, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/InvisibleWalls/StaticBody3D_E" unique_id=1373630899]
+shape = SubResource("BoxShape3D_fqdin")
+debug_color = Color(0, 0.6, 0.69803923, 1)
+
+[node name="Background" type="Node3D" parent="Environment" unique_id=87429627]
+
+[node name="SkyColor" type="MeshInstance3D" parent="Environment/Background" unique_id=1103339962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, -128)
+mesh = SubResource("QuadMesh_j1g5h")
+surface_material_override/0 = ExtResource("3_om7yl")
+
+[node name="SkyColor2" type="MeshInstance3D" parent="Environment/Background" unique_id=1320982328]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, -10, -128)
+mesh = SubResource("QuadMesh_j1g5h")
+surface_material_override/0 = ExtResource("3_om7yl")
+
+[node name="SkyColor3" type="MeshInstance3D" parent="Environment/Background" unique_id=881685078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, -10, -128)
+mesh = SubResource("QuadMesh_j1g5h")
+surface_material_override/0 = ExtResource("3_om7yl")
+
+[node name="Mountains" type="MeshInstance3D" parent="Environment/Background" unique_id=891773219]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5, -64)
+mesh = SubResource("QuadMesh_j1g5h")
+surface_material_override/0 = ExtResource("4_j1g5h")
+
+[node name="Mountains2" type="MeshInstance3D" parent="Environment/Background" unique_id=1778106031]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, -5, -64)
+mesh = SubResource("QuadMesh_j1g5h")
+surface_material_override/0 = ExtResource("4_j1g5h")
+
+[node name="Mountains3" type="MeshInstance3D" parent="Environment/Background" unique_id=2002235029]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, -5, -64)
+mesh = SubResource("QuadMesh_j1g5h")
+surface_material_override/0 = ExtResource("4_j1g5h")
+
+[node name="Baskets" type="Node3D" parent="Environment" unique_id=581945583]
+
+[node name="Basket" parent="Environment/Baskets" unique_id=470985751 instance=ExtResource("3_s1cnu")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 0, 0)
+
+[node name="Basket2" parent="Environment/Baskets" unique_id=1976989195 instance=ExtResource("3_s1cnu")]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 0, 0)
+team = 1
+
+[node name="Objects" type="Node3D" parent="." unique_id=1818688397]
+
+[node name="Ball" parent="Objects" unique_id=415838134 instance=ExtResource("6_4g3ly")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 0)
+
+[node name="CameraManager" parent="." unique_id=794078316 node_paths=PackedStringArray("cameraFollowTarget") instance=ExtResource("7_nxgbv")]
+cameraFollowTarget = NodePath("../Objects/Ball")

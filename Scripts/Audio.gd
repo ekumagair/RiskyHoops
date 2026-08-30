@@ -27,6 +27,7 @@ enum Music
 	RESULT_A = 7,
 	RESULT_B = 8,
 	RESULT_C = 9,
+	RISKY_MOUNTAINS = 10,
 }
 
 var musicFiles = {
@@ -41,6 +42,7 @@ var musicFiles = {
 	07: preload("res://Audio/Music/ResultTheme1.ogg"),
 	08: preload("res://Audio/Music/ResultTheme2.ogg"),
 	09: preload("res://Audio/Music/ResultTheme3.ogg"),
+	10: preload("res://Audio/Music/RiskyMountains.ogg"),
 }
 
 var sfxBusName : String = "SFX"
@@ -92,7 +94,7 @@ func play_sound(sound : Audio.Sound, pos : Vector3 = GLOBAL_SFX_POS):
 #endregion
 
 #region Music
-func play_music(music : Music):
+func play_music(music : Music, fadeOutTime : float = 0.01, fadeInTime : float = 0.01):
 	if music == Music.NONE:
 		# NONE = Don't change the music that's currently playing.
 		return
@@ -102,7 +104,7 @@ func play_music(music : Music):
 	# Fade the old music out before playing the new one.
 	if musicStream.playing and musicCurrent != Music.SILENCE:
 		var tweenOut = create_tween()
-		tweenOut.tween_property(musicStream, "volume_db", -80.0, 0.05)
+		tweenOut.tween_property(musicStream, "volume_db", -80.0, fadeOutTime)
 		
 		await tweenOut.finished
 		musicStream.stop()
@@ -119,7 +121,7 @@ func play_music(music : Music):
 	musicStream.play()
 	
 	var tweenIn = create_tween()
-	tweenIn.tween_property(musicStream, "volume_db", 0.0, 0.5)
+	tweenIn.tween_property(musicStream, "volume_db", 0.0, fadeInTime)
 	
 	await tweenIn.finished
 
@@ -127,8 +129,8 @@ func clear_music_effects():
 	for i in AudioServer.get_bus_effect_count(musicBusIndex):
 		AudioServer.remove_bus_effect(musicBusIndex, 0)
 
-func fade_music_to_silence():
-	play_music(Audio.Music.SILENCE)
+func fade_music_to_silence(fadeOutTime : float = 0.4):
+	play_music(Audio.Music.SILENCE, fadeOutTime)
 
 func cut_music():
 	musicStream.stop()

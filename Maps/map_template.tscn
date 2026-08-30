@@ -53,7 +53,7 @@ albedo_color = Color(0, 0, 1, 1)
 script = ExtResource("1_416mt")
 baskets = [NodePath("../Environment/Baskets/Basket"), NodePath("../Environment/Baskets/Basket2")]
 ball = NodePath("../Objects/Ball")
-songs = Array[int]([4, 5, 6])
+songs = Array[int]([4, 5, 6, 10])
 
 [node name="GameCanvas" parent="." unique_id=795019234 instance=ExtResource("2_ry5na")]
 

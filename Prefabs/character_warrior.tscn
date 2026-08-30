@@ -1,11 +1,117 @@
 [gd_scene format=3 uid="uid://b5jr3ccp7rgf0"]
 
 [ext_resource type="PackedScene" uid="uid://c5myae0fhujen" path="res://Prefabs/character.tscn" id="1_ythfu"]
+[ext_resource type="Material" uid="uid://m8elmpdg1yuf" path="res://Sprites/Characters/Warrior/tres/WarriorWalk1.tres" id="2_hrcbl"]
+[ext_resource type="Material" uid="uid://bgijdx0l50vy5" path="res://Sprites/Characters/Warrior/tres/WarriorWalk2.tres" id="3_lw4pm"]
+[ext_resource type="Material" uid="uid://cmpwip6r4a3ma" path="res://Sprites/Characters/Warrior/tres/WarriorWalk3.tres" id="4_gskp5"]
+[ext_resource type="Material" uid="uid://bvah2a6nsp22c" path="res://Sprites/Characters/Warrior/tres/WarriorWalk4.tres" id="5_jiv8g"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_kltn8"]
+size = Vector2(3, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq4ix"]
+shading_mode = 0
+
+[sub_resource type="Animation" id="Animation_v3twh"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("StandardMaterial3D_mq4ix")]
+}
+
+[sub_resource type="Animation" id="Animation_lw4pm"]
+resource_name = "attack"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("2_hrcbl")]
+}
+
+[sub_resource type="Animation" id="Animation_dun6t"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("2_hrcbl")]
+}
+
+[sub_resource type="Animation" id="Animation_hrcbl"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("5_jiv8g")]
+}
+
+[sub_resource type="Animation" id="Animation_wr5fg"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(0, 0, 0, 0),
+"update": 1,
+"values": [ExtResource("2_hrcbl"), ExtResource("3_lw4pm"), ExtResource("4_gskp5"), ExtResource("5_jiv8g")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hroeh"]
+_data = {
+&"RESET": SubResource("Animation_v3twh"),
+&"attack": SubResource("Animation_lw4pm"),
+&"idle": SubResource("Animation_dun6t"),
+&"jump": SubResource("Animation_hrcbl"),
+&"walk": SubResource("Animation_wr5fg")
+}
 
 [node name="CharacterWarrior" unique_id=2078396322 instance=ExtResource("1_ythfu")]
 characterId = 3
-moveSpeed = 4.75
+moveSpeed = 5.5
 jumpVelocity = 9.5
 attackType = 0
 attackPrefab = 1
+attackDuration = 0.1
 attackCooldown = 0.1
+
+[node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)
+mesh = SubResource("PlaneMesh_kltn8")
+
+[node name="AnimationPlayer" parent="Model" parent_id_path=PackedInt32Array(1045958) index="1" unique_id=65148196]
+libraries/ = SubResource("AnimationLibrary_hroeh")
+autoplay = &"idle"

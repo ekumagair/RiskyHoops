@@ -40,7 +40,7 @@ size = Vector3(3, 3, 3)
 size = Vector3(3, 8, 2)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rbbdn"]
-radius = 7.5
+radius = 7.0
 
 [node name="Basket" type="Node3D" unique_id=470985751 node_paths=PackedStringArray("positions")]
 script = ExtResource("1_rbbdn")

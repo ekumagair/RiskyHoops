@@ -34,7 +34,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_bscj6"]
 resource_name = "attack"
-length = 0.25
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -42,7 +42,7 @@ tracks/0/path = NodePath("Main:surface_material_override/0")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(0, 0),
 "update": 1,
 "values": [ExtResource("3_7qmtd"), ExtResource("2_cbigf")]
@@ -80,7 +80,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_weims"]
 resource_name = "jump_attack"
-length = 0.25
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -88,7 +88,7 @@ tracks/0/path = NodePath("Main:surface_material_override/0")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.13333334),
+"times": PackedFloat32Array(0, 0.1),
 "transitions": PackedFloat32Array(0, 0),
 "update": 1,
 "values": [ExtResource("5_bscj6"), ExtResource("3_0of3o")]
@@ -125,7 +125,8 @@ _data = {
 characterId = 1
 attackType = 0
 attackPrefab = 0
-attackCooldown = 0.2
+attackDuration = 0.2
+attackCooldown = 0.1
 
 [node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)
