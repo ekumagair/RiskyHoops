@@ -58,6 +58,9 @@ func _ready() -> void:
 	
 	organize_to_center()
 
+func _process(delta : float) -> void:
+	check_score_goal()
+
 func config_rules():
 	quarter = 1
 	timeMin = options.quarterDuration
@@ -80,7 +83,6 @@ func config_characters():
 func organize_to(pos : Array[Vector3]) -> void:
 	gameState = GameState.ORGANIZE
 	force_characters_as_cpu(true)
-	cancel_character_targets()
 	
 	await get_tree().create_timer(0.1).timeout
 	
@@ -224,6 +226,8 @@ func get_attack_prefab(attack : GameConstants.Attacks):
 func reduce_time():
 	await get_tree().create_timer(0.1).timeout
 	
+	if gameState == GameState.ENDED:
+		return
 	if gameState != GameState.DEFAULT:
 		reduce_time()
 		return
@@ -242,7 +246,7 @@ func reduce_time():
 				timeMin -= 1
 	
 	if timeMin <= 0 and timeSec <= 0:
-		if quarter < 4:
+		if quarter < 4 or score[0] == score[1]:
 			end_quarter()
 		else:
 			end_match()
@@ -250,16 +254,52 @@ func reduce_time():
 	reduce_time()
 
 func end_quarter():
+	if gameState == GameState.ORGANIZE:
+		return
+	
 	quarter += 1
 	organize_to_center()
-	teleport_ball_to(Vector3(0, 0.2, 0))
-	global.gCanvas.organizeLabel.text = "END OF QUARTER"
+	teleport_ball_to(Vector3(0, 0.4, 0))
+	
+	if quarter <= 4:
+		global.gCanvas.organizeLabel.text = "END OF QUARTER"
+	else:
+		global.gCanvas.organizeLabel.text = "OVERTIME"
 	
 	timeMin = options.quarterDuration
 	timeSec = 0
 	timeSecTenth = 0
 	
 func end_match():
-	quarter = 4
+	if gameState == GameState.ENDED:
+		return
+	
 	gameState = GameState.ENDED
 	global.gCanvas.organizeLabel.text = "END OF MATCH"
+	global.gManager.cancel_character_targets()
+	global.gManager.get_characters()
+	global.winners.clear()
+	
+	if score[0] > score[1]:
+		global.winners.append(characters[0].characterId)
+		global.winners.append(characters[2].characterId)
+		global.winnerColor = Color(0, 0.216, 1, 1)
+	elif score[1] > score[0]:
+		global.winners.append(characters[1].characterId)
+		global.winners.append(characters[3].characterId)
+		global.winnerColor = Color(1, 0, 0, 1)
+	
+	audio.fade_music_to_silence()
+	
+	await get_tree().create_timer(3).timeout
+	
+	await global.gCanvas.end_match()
+	
+	get_tree().change_scene_to_file("res://Scenes/result_screen.tscn")
+
+func check_score_goal():
+	if options.scoreGoal < 1 or (gameState != GameState.DEFAULT and !global.gManager.ball.scoring):
+		return
+	
+	if score[0] >= options.scoreGoal or score[1] >= options.scoreGoal:
+		end_match()

@@ -101,6 +101,7 @@ attack_p1={
 3d_physics/layer_6="Attack"
 3d_physics/layer_7="CharacterBlocker"
 3d_physics/layer_8="Sight"
+3d_physics/layer_9="BasketPoints"
 
 [physics]
 

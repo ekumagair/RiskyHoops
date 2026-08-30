@@ -13,7 +13,7 @@ func _on_ball_area_entered(area: Area3D) -> void:
 		return
 	
 	global.gManager.release_ball(ball)
-	global.gManager.add_score(2, global.get_opposite_team(team))
+	global.gManager.add_score(2 if ball.twoPoint else 3, global.get_opposite_team(team))
 	
 	ball.forbidCharacter = null
 	ball.held = false
@@ -22,3 +22,19 @@ func _on_ball_area_entered(area: Area3D) -> void:
 	ball.global_position = Vector3(ballTarget.global_position.x, ballTarget.global_position.y - 0.1, ballTarget.global_position.z - 0.5)
 	
 	global.gManager.organize_to_basket(team)
+
+func _on_points_area_entered(body: Node3D) -> void:
+	var char : Character = body as Character
+	
+	if char == null:
+		return
+	
+	char.twoPoint = true
+
+func _on_points_area_exited(body: Node3D) -> void:
+	var char : Character = body as Character
+	
+	if char == null:
+		return
+	
+	char.twoPoint = false

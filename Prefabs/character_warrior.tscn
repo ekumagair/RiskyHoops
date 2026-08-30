@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://c5myae0fhujen" path="res://Prefabs/character.tscn" id="1_ythfu"]
 
 [node name="CharacterWarrior" unique_id=2078396322 instance=ExtResource("1_ythfu")]
+characterId = 3
 moveSpeed = 4.75
 jumpVelocity = 9.5
 attackType = 0

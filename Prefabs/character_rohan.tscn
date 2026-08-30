@@ -122,6 +122,7 @@ _data = {
 }
 
 [node name="CharacterRohan" unique_id=2078396322 instance=ExtResource("1_245he")]
+characterId = 1
 attackType = 0
 attackPrefab = 0
 attackCooldown = 0.2

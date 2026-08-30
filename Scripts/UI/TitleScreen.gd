@@ -3,7 +3,7 @@ extends UIScreen
 @onready var versionLabel : Label = $VersionLabel
 
 func _process(delta : float) -> void:
-	if Input.is_anything_pressed():
+	if Input.is_anything_pressed() and isOpen:
 		close()
 
 func on_title_open():

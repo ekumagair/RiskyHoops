@@ -89,11 +89,12 @@ _data = {
 }
 
 [node name="CharacterHoops" unique_id=2078396322 instance=ExtResource("1_8rmn2")]
+characterId = 4
 moveSpeed = 6.5
 jumpVelocity = 12.0
 attackType = 1
-attackDuration = 0.3
-attackCooldown = 3.0
+attackDuration = 0.4
+attackCooldown = 2.5
 
 [node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
 transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)

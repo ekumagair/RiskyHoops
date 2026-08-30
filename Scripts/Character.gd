@@ -1,6 +1,7 @@
 class_name Character
 extends CharacterBody3D
 
+@export var characterId : GameConstants.Characters = GameConstants.Characters.DUMMY
 @export var playerId : int = 0
 @export var team : int = 0
 @export var moveSpeed : float = 5.0
@@ -32,6 +33,7 @@ var attacking : bool = false
 var attackCooldownTimer : float = 0.0
 var stunned : bool = false
 var seenCharacters : Array[Node3D]
+var twoPoint : bool = false
 
 func _ready() -> void:
 	teammate = get_teammate()
@@ -63,6 +65,9 @@ func _physics_process(delta : float) -> void:
 
 #region Common Logic
 func move_common_process(delta : float) -> void:
+	if global.gManager.gameState == GameManager.GameState.ENDED:
+		return
+	
 	if !is_on_floor():
 		velocity.y -= fallSpeed * delta
 
@@ -158,6 +163,9 @@ func player_actions_process(delta : float) -> void:
 
 #region Bot Logic
 func move_bot_process(delta : float) -> void:
+	if global.gManager.gameState == GameManager.GameState.ENDED:
+		return
+	
 	var input : Vector3 = Vector3(0, 0, 0)
 	
 	if targetWalkPos.x > global_position.x and targetWalkPos.x - global_position.x > targetWalkPosRange:
@@ -276,7 +284,7 @@ func set_char_dir_from_input(delta : float, direction : Vector3) -> void:
 		charDirectionPressed.z = 0
 
 func set_char_dir_from_velocity():
-	if global.gManager.gameState == GameManager.GameState.ORGANIZE and !targetWalkReached:
+	if global.gManager.gameState == GameManager.GameState.ORGANIZE and targetWalkReached:
 		return
 	
 	if velocity.x > 0:
@@ -336,6 +344,7 @@ func release_ball(newVelocity : Vector3):
 	heldBall.forbidCharacter = self
 	heldBall.held = false
 	heldBall.holder = null
+	heldBall.twoPoint = twoPoint
 	heldBall.holderPrev = self
 	heldBall.releasePos = global_position
 	heldBall.position = Vector3(0, 1.0, 0)
@@ -379,6 +388,14 @@ func update_animation():
 				play_animation("idle")
 			else:
 				play_animation("attack")
+	
+	if global.gManager.gameState == GameManager.GameState.ENDED:
+		modelAnim.speed_scale = 0.0
+	else:
+		if attacking and attackType == GameConstants.AttackTypes.MELEE:
+			modelAnim.speed_scale = 1.75
+		else:
+			modelAnim.speed_scale = 1.0
 
 func play_animation(anim : String):
 	if modelAnim.has_animation(anim):

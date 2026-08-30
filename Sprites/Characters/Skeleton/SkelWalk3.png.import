@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ca2v3moh6ypqj"
-path="res://.godot/imported/JoeHoopsWalk4.png-9aa42bf53804fb09d966da1897e497a7.ctex"
+uid="uid://dghrpcghxn6o5"
+path="res://.godot/imported/SkelWalk3.png-b14d4826f3c63d7d436d0f67f9c198a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Characters/Hoops/JoeHoopsWalk4.png"
-dest_files=["res://.godot/imported/JoeHoopsWalk4.png-9aa42bf53804fb09d966da1897e497a7.ctex"]
+source_file="res://Sprites/Characters/Skeleton/SkelWalk3.png"
+dest_files=["res://.godot/imported/SkelWalk3.png-b14d4826f3c63d7d436d0f67f9c198a5.ctex"]
 
 [params]
 

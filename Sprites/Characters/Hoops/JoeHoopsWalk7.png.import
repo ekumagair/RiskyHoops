@@ -3,30 +3,29 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://p2538wmclikn"
-path.s3tc="res://.godot/imported/JoeHoopsWalk7.png-936b05aee7ab1151fb782f72c8f2debd.s3tc.ctex"
+path="res://.godot/imported/JoeHoopsWalk7.png-936b05aee7ab1151fb782f72c8f2debd.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://Sprites/Characters/Hoops/JoeHoopsWalk7.png"
-dest_files=["res://.godot/imported/JoeHoopsWalk7.png-936b05aee7ab1151fb782f72c8f2debd.s3tc.ctex"]
+dest_files=["res://.godot/imported/JoeHoopsWalk7.png-936b05aee7ab1151fb782f72c8f2debd.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
 compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
-compress/normal_map=0
+compress/normal_map=2
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
-roughness/mode=0
+roughness/mode=1
 roughness/src_normal=""
 process/channel_remap/red=0
 process/channel_remap/green=1

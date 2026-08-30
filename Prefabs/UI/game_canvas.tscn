@@ -3,6 +3,43 @@
 [ext_resource type="Script" uid="uid://dpsccsake4msd" path="res://Scripts/GameCanvas.gd" id="1_bj44r"]
 [ext_resource type="Theme" uid="uid://bdp8nux7uxbd6" path="res://Themes/main_theme.tres" id="2_5pju7"]
 [ext_resource type="FontFile" uid="uid://cjqcchkbnk3yk" path="res://Fonts/I-pixel-u.ttf" id="3_v41ug"]
+[ext_resource type="Texture2D" uid="uid://dndb318kylgpd" path="res://Sprites/WhiteSquare.png" id="4_5pju7"]
+
+[sub_resource type="Animation" id="Animation_v41ug"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_x4fu1"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(0, 0, 0, 0, 0, 0),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0.2), Color(0, 0, 0, 0.4), Color(0, 0, 0, 0.6), Color(0, 0, 0, 0.8), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_eewt2"]
+_data = {
+&"RESET": SubResource("Animation_v41ug"),
+&"fade_in": SubResource("Animation_x4fu1")
+}
 
 [node name="GameCanvas" type="CanvasLayer" unique_id=795019234 node_paths=PackedStringArray("playerName", "scoreLabels")]
 script = ExtResource("1_bj44r")
@@ -125,3 +162,16 @@ offset_right = 1920.0
 offset_bottom = 40.0
 text = "END OF QUARTER"
 horizontal_alignment = 1
+
+[node name="Fade" type="TextureRect" parent="Control" unique_id=1436646281]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_5pju7")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Fade" unique_id=1822769547]
+libraries/ = SubResource("AnimationLibrary_eewt2")

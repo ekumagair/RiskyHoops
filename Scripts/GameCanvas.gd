@@ -8,10 +8,13 @@ extends CanvasLayer
 @onready var timeSec : Label = $Control/Scoreboard/TimeSec
 @onready var quarterLabel : Label = $Control/Scoreboard/Quarter
 @onready var organizeLabel : Label = $Control/Organize/Label
+@onready var fadeImg : TextureRect = $Control/Fade
+@onready var fadeAnim : AnimationPlayer = $Control/Fade/AnimationPlayer
 
 func _ready() -> void:
 	global.gCanvas = self
 	organizeLabel.text = ""
+	fadeImg.modulate = Color(0, 0, 0, 0)
 	update_text()
 
 func _process(delta : float) -> void:
@@ -38,7 +41,18 @@ func update_text():
 	
 	quarterLabel.text = "QUARTER " + str(global.gManager.quarter)
 	
-	organizeLabel.visible = global.gManager.gameState == GameManager.GameState.ORGANIZE
+	organizeLabel.visible = global.gManager.gameState != GameManager.GameState.DEFAULT
 	
 	if !organizeLabel.visible:
 		organizeLabel.text = ""
+
+func play_fade_animation(animName : String):
+	if fadeAnim != null:
+		fadeAnim.play(animName)
+		await fadeAnim.animation_finished
+
+func fade_in():
+	await play_fade_animation("fade_in")
+
+func end_match():
+	await fade_in()

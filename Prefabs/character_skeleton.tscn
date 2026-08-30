@@ -1,10 +1,99 @@
 [gd_scene format=3 uid="uid://c102bnm73txx4"]
 
 [ext_resource type="PackedScene" uid="uid://c5myae0fhujen" path="res://Prefabs/character.tscn" id="1_h0m2u"]
+[ext_resource type="Material" uid="uid://c6338jw7gqkjn" path="res://Sprites/Characters/Skeleton/tres/SkelWalk1.tres" id="2_0rur0"]
+[ext_resource type="Material" uid="uid://dagoddciv3r8e" path="res://Sprites/Characters/Skeleton/tres/SkelWalk4.tres" id="3_colk0"]
+[ext_resource type="Material" uid="uid://bsgryhjliy2sk" path="res://Sprites/Characters/Skeleton/tres/SkelWalk2.tres" id="4_5x4rb"]
+[ext_resource type="Material" uid="uid://lh50l82ho85p" path="res://Sprites/Characters/Skeleton/tres/SkelWalk3.tres" id="5_2l1q1"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_72afu"]
+size = Vector2(3, 3)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mq4ix"]
+shading_mode = 0
+
+[sub_resource type="Animation" id="Animation_27dlq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [SubResource("StandardMaterial3D_mq4ix")]
+}
+
+[sub_resource type="Animation" id="Animation_exkjq"]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("2_0rur0")]
+}
+
+[sub_resource type="Animation" id="Animation_7nmib"]
+resource_name = "jump"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(0),
+"update": 1,
+"values": [ExtResource("3_colk0")]
+}
+
+[sub_resource type="Animation" id="Animation_njcba"]
+resource_name = "walk"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Main:surface_material_override/0")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(0, 0, 0, 0),
+"update": 1,
+"values": [ExtResource("2_0rur0"), ExtResource("4_5x4rb"), ExtResource("5_2l1q1"), ExtResource("3_colk0")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_d8cam"]
+_data = {
+&"RESET": SubResource("Animation_27dlq"),
+&"idle": SubResource("Animation_exkjq"),
+&"jump": SubResource("Animation_7nmib"),
+&"walk": SubResource("Animation_njcba")
+}
 
 [node name="CharacterSkeleton" unique_id=2078396322 instance=ExtResource("1_h0m2u")]
+characterId = 2
 moveSpeed = 5.5
 jumpVelocity = 8.0
 attackType = 1
-attackDuration = 0.2
-attackCooldown = 2.0
+attackDuration = 0.3
+attackCooldown = 1.5
+
+[node name="Main" parent="Model" parent_id_path=PackedInt32Array(1045958) index="0" unique_id=1372282206]
+transform = Transform3D(1, 0, 0, 0, -4.3711385e-08, -0.99999994, 0, 0.99999994, -4.3711385e-08, 0, 1.5, 0)
+mesh = SubResource("PlaneMesh_72afu")
+
+[node name="AnimationPlayer" parent="Model" parent_id_path=PackedInt32Array(1045958) index="1" unique_id=65148196]
+libraries/ = SubResource("AnimationLibrary_d8cam")
+autoplay = &"idle"

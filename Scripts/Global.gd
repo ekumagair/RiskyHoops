@@ -4,6 +4,8 @@ var gManager : GameManager
 var gCanvas : GameCanvas
 var charIds : Array[GameConstants.Characters]
 var mainMenuFirstScreenOverride : String = ""
+var winners : Array[GameConstants.Characters]
+var winnerColor : Color
 
 var versionBase : String
 var version : String

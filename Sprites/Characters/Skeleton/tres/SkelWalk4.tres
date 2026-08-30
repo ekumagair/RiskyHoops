@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://dagoddciv3r8e"]
+
+[ext_resource type="Texture2D" uid="uid://ta21qy06f75" path="res://Sprites/Characters/Skeleton/SkelWalk4.png" id="1_6u2h4"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+albedo_texture = ExtResource("1_6u2h4")
+texture_filter = 0
+texture_repeat = false

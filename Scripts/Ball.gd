@@ -18,6 +18,7 @@ var horizontalBounceFactor : float = 0.8
 var forbidCharacter : Character
 var ballDirection : Vector3 = Vector3(0, 1, 0)
 var releasePos : Vector3 = Vector3.ZERO
+var twoPoint : bool = false
 
 func _process(delta : float) -> void:
 	update_direction()

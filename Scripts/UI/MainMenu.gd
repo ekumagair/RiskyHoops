@@ -1,3 +1,4 @@
+class_name MainMenu
 extends UIMenu
 
 @export var btnChars : Array[ButtonCharacter]
@@ -74,31 +75,16 @@ func let_cpu_select_character():
 	isCpuSelecting = true
 	global.release_focus()
 	
-	var possibleChars : Array[ButtonCharacter] = btnChars
-	var possibleCharIndex : int = 0
+	var possibleChars : Array[ButtonCharacter]
 	var selectedChar : ButtonCharacter
 	
-	if !options.duplicateChars:
-		while possibleCharIndex < 4:
-			if possibleCharIndex >= len(possibleChars):
-				possibleCharIndex += 1
-				continue
-			
-			if global.charIds.has(possibleChars[possibleCharIndex].character):
-				possibleChars.erase(possibleChars[possibleCharIndex])
-			elif possibleChars[possibleCharIndex].chosen:
-				possibleChars.erase(possibleChars[possibleCharIndex])
-			
-			if global.charIds.has(GameConstants.Characters.SKELETON) and possibleChars[possibleCharIndex].character == GameConstants.Characters.SKELETON:
-				possibleChars.erase(possibleChars[possibleCharIndex])
-			
-			possibleCharIndex += 1
+	possibleChars.clear()
 	
-	if len(possibleChars) > 1 and len(global.charIds) < 3:
-		selectedChar = possibleChars.pick_random()
-	else:
-		selectedChar = possibleChars[0]
+	for i in len(btnChars):
+		if (!global.charIds.has(btnChars[i].character) and !btnChars[i].chosen) or options.duplicateChars:
+			possibleChars.append(btnChars[i])
 	
+	selectedChar = possibleChars.pick_random()
 	selectedChar.chosen = true
 	global.charIds.append(selectedChar.character)
 	currentCharIndex += 1
