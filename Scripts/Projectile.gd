@@ -2,6 +2,7 @@ class_name Projectile
 extends Attack
 
 @export var fallSpeed : float = 0.0
+@export var impactSound : Audio.Sound = Audio.Sound.NONE
 
 @onready var modelAnim : AnimationPlayer = get_node_or_null("Model/AnimationPlayer")
 
@@ -26,6 +27,7 @@ func gravity(delta : float):
 		velocity.y -= fallSpeed * delta
 	else:
 		velocity.y = 0
+		impact_sound()
 		queue_free()
 
 func is_on_floor():
@@ -62,5 +64,11 @@ func _on_body_entered(body: Node3D) -> void:
 	if hitChar.stunned or hitChar.team == originTeam:
 		return
 	
+	impact_sound()
+	
 	hitChar.stun()
 	queue_free()
+
+func impact_sound():
+	if impactSound != Audio.Sound.NONE:
+		audio.play_sound(impactSound, global_position)

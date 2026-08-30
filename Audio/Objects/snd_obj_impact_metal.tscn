@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://0i1w2yn7x0q7"]
+
+[ext_resource type="PackedScene" uid="uid://d1nnwd180bxxk" path="res://Audio/Objects/snd_obj.tscn" id="1_jyn3n"]
+[ext_resource type="AudioStream" uid="uid://cbmy8jl822vc6" path="res://Audio/SFX/ImpactMetal1Crushed.wav" id="2_vw63j"]
+[ext_resource type="AudioStream" uid="uid://bylml5pxpbyy" path="res://Audio/SFX/ImpactMetal2Crushed.wav" id="3_jyn3n"]
+[ext_resource type="AudioStream" uid="uid://clsxeoedpfhls" path="res://Audio/SFX/ImpactMetal3Crushed.wav" id="4_xg7nh"]
+[ext_resource type="AudioStream" uid="uid://cp0v4ps4la8da" path="res://Audio/SFX/ImpactMetal4Crushed.wav" id="5_chdlj"]
+[ext_resource type="AudioStream" uid="uid://cpwhvoyohqvbj" path="res://Audio/SFX/ImpactMetal5Crushed.wav" id="6_i1mju"]
+[ext_resource type="AudioStream" uid="uid://b0kok50167rm1" path="res://Audio/SFX/ImpactMetal6Crushed.wav" id="7_uw3de"]
+[ext_resource type="AudioStream" uid="uid://b6ki6blomhq1d" path="res://Audio/SFX/ImpactMetal7Crushed.wav" id="8_27oo5"]
+
+[node name="SndObj" unique_id=1005143247 instance=ExtResource("1_jyn3n")]
+volume_db = -6.0
+sounds = Array[AudioStream]([ExtResource("2_vw63j"), ExtResource("3_jyn3n"), ExtResource("4_xg7nh"), ExtResource("5_chdlj"), ExtResource("6_i1mju"), ExtResource("7_uw3de"), ExtResource("8_27oo5")])
+pitchMin = 0.95
+pitchMax = 1.05

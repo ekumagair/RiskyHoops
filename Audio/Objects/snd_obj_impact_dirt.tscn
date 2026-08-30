@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cusk5uhjwcfmd"]
+
+[ext_resource type="PackedScene" uid="uid://d1nnwd180bxxk" path="res://Audio/Objects/snd_obj.tscn" id="1_r3yv3"]
+[ext_resource type="AudioStream" uid="uid://c5gny2g3g6xcq" path="res://Audio/SFX/ImpactDirt1Crushed.wav" id="2_uriyt"]
+[ext_resource type="AudioStream" uid="uid://cn4ld4r6gj3n5" path="res://Audio/SFX/ImpactDirt2Crushed.wav" id="3_hxgms"]
+[ext_resource type="AudioStream" uid="uid://6putun5q32h0" path="res://Audio/SFX/ImpactDirt3Crushed.wav" id="4_3ctnw"]
+[ext_resource type="AudioStream" uid="uid://bcf02vgt683vq" path="res://Audio/SFX/ImpactDirt4Crushed.wav" id="5_jrdui"]
+[ext_resource type="AudioStream" uid="uid://d1mnk613nvhy2" path="res://Audio/SFX/ImpactDirt5Crushed.wav" id="6_3jr7t"]
+[ext_resource type="AudioStream" uid="uid://chjf4xri3cv7q" path="res://Audio/SFX/ImpactDirt6Crushed.wav" id="7_maxeo"]
+[ext_resource type="AudioStream" uid="uid://pmrcvggbf3v7" path="res://Audio/SFX/ImpactDirt7Crushed.wav" id="8_26tha"]
+[ext_resource type="AudioStream" uid="uid://bmkex3k31eaii" path="res://Audio/SFX/ImpactDirt8Crushed.wav" id="9_q1exp"]
+
+[node name="SndObj" unique_id=1005143247 instance=ExtResource("1_r3yv3")]
+sounds = Array[AudioStream]([ExtResource("2_uriyt"), ExtResource("3_hxgms"), ExtResource("4_3ctnw"), ExtResource("5_jrdui"), ExtResource("6_3jr7t"), ExtResource("7_maxeo"), ExtResource("8_26tha"), ExtResource("9_q1exp")])
+pitchMin = 0.95
+pitchMax = 1.05

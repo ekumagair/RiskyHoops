@@ -25,9 +25,10 @@ var oppositeBasket : Basket
 var charDirection : Vector3 = Vector3(1, 1, 0)
 var charDirectionPressed : Vector3 = Vector3(0, 0, 0)
 var targetWalkPos : Vector3 = Vector3(0, 0, 0)
-var targetWalkPosRange : float = 0.3
+var targetWalkPosRange : float = 0.1
 var targetWalkReached : bool = false
 var targetLookPos : float = 0.0
+var idleTimer : float = 0.0
 var forceCpuControl : bool = false
 var attacking : bool = false
 var attackCooldownTimer : float = 0.0
@@ -54,6 +55,7 @@ func _process(delta : float) -> void:
 	set_char_dir_to_pos()
 	update_animation()
 	update_attack_cooldown(delta)
+	process_idle(delta)
 
 func _physics_process(delta : float) -> void:
 	move_common_process(delta)
@@ -118,6 +120,12 @@ func get_teammate() -> Character:
 			return chars[i]
 	
 	return null
+
+func process_idle(delta) -> void:
+	if velocity.x == 0 and velocity.z == 0 and global.gManager.gameState == GameManager.GameState.DEFAULT:
+		idleTimer += delta
+	else:
+		idleTimer = 0
 #endregion
 
 #region Player Logic
@@ -233,7 +241,10 @@ func bot_search_target_pos() -> void:
 		if holder != self:
 			if holder.team != team:
 				newTargetWalkPos.x = holder.global_position.x + (2 * holder.charDirection.x)
-				newTargetWalkPos.z = holder.global_position.z * randf_range(-1.1, 1.1)
+				newTargetWalkPos.z = holder.global_position.z * randf_range(-1.2, 1.2)
+				
+				if holder.idleTimer > 2.0:
+					newTargetWalkPos = holder.global_position
 			else:
 				newTargetWalkPos.x = holder.global_position.x
 				newTargetWalkPos.z = holder.global_position.z * -1
@@ -242,6 +253,10 @@ func bot_search_target_pos() -> void:
 			newTargetWalkPos.z = oppositeBasket.ballTarget.global_position.z
 	else:
 		newTargetWalkPos = ball.global_position
+		
+		if idleTimer > 2.0:
+			newTargetWalkPos.x = ball.global_position.x * randf_range(-1.05, 1.05)
+			newTargetWalkPos.z = ball.global_position.z * randf_range(-1.05, 1.05)
 	
 	if abs(newTargetWalkPos.x - targetWalkPos.x) > 0.5 and abs(global_position.x - targetWalkPos.x) < 0.5:
 		newTargetWalkPos.x = clampf(newTargetWalkPos.x * randf_range(0.8, 1.2), global.gManager.charPosLimit.x * -1, global.gManager.charPosLimit.x)
@@ -490,6 +505,7 @@ func stun():
 		return
 	
 	stunned = true
+	audio.play_sound(Audio.Sound.IMPACT_DIRT, global_position)
 	
 	if heldBall != null:
 		var force : Vector3 = Vector3(randf_range(-10, 10), randf_range(10, 12), randf_range(-10, 10))
@@ -501,11 +517,16 @@ func stun():
 		if global.gManager.gameState != GameManager.GameState.DEFAULT:
 			model.show()
 			continue
+			
+		while global.gManager.paused:
+			if global.gManager.gameState == GameManager.GameState.ENDED:
+				return
+			await get_tree().process_frame
 		
 		model.hide()
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.05).timeout
 		model.show()
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.05).timeout
 	
 	model.show()
 	stunned = false

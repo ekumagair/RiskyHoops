@@ -6,12 +6,18 @@ enum Sound
 	NONE = -1,
 	BELL = 0,
 	STOMP = 1,
+	IMPACT_CRUNCH = 2,
+	IMPACT_DIRT = 3,
+	IMPACT_METAL = 4,
 }
 
 var soundObjs = {
 	-1: null,
 	00: preload("res://Audio/Objects/snd_obj_bell.tscn"),
 	01: preload("res://Audio/Objects/snd_obj_stomp.tscn"),
+	02: preload("res://Audio/Objects/snd_obj_impact_crunch.tscn"),
+	03: preload("res://Audio/Objects/snd_obj_impact_dirt.tscn"),
+	04: preload("res://Audio/Objects/snd_obj_impact_metal.tscn"),
 }
 
 enum Music
@@ -53,6 +59,7 @@ var musicBusIndex : int
 var musicObj = preload("res://Audio/Objects/mus_obj.tscn")
 var musicStream : AudioStreamPlayer
 var musicCurrent : Music = Music.SILENCE
+var musicTimePrev : float = 0.0
 
 const GLOBAL_SFX_POS : Vector3 = Vector3(0, -1000, 0)
 
@@ -132,6 +139,19 @@ func clear_music_effects():
 func fade_music_to_silence(fadeOutTime : float = 0.4):
 	play_music(Audio.Music.SILENCE, fadeOutTime)
 
+func pause_music(stop : bool):
+	if musicCurrent == Music.SILENCE:
+		musicTimePrev = 0.0
+		return
+	
+	if stop:
+		musicTimePrev = musicStream.get_playback_position()
+		musicStream.stop()
+	else:
+		musicStream.play()
+		musicStream.seek(musicTimePrev)
+
 func cut_music():
+	musicTimePrev = 0.0
 	musicStream.stop()
 #endregion

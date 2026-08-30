@@ -435,6 +435,7 @@ text = "GAME OPTIONS"
 libraries/ = SubResource("AnimationLibrary_t1dhk")
 
 [node name="Chars" type="Control" parent="." unique_id=609585522 node_paths=PackedStringArray("cursor")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

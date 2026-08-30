@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://doqu8c10ec6wi"]
+
+[ext_resource type="PackedScene" uid="uid://d1nnwd180bxxk" path="res://Audio/Objects/snd_obj.tscn" id="1_hwgiv"]
+[ext_resource type="AudioStream" uid="uid://btuh8wyw8ougn" path="res://Audio/SFX/ImpactCrunch1Crushed.wav" id="2_m8lyy"]
+[ext_resource type="AudioStream" uid="uid://dkyvuj3bln27p" path="res://Audio/SFX/ImpactCrunch2Crushed.wav" id="3_s2ocx"]
+
+[node name="SndObj" unique_id=1005143247 instance=ExtResource("1_hwgiv")]
+sounds = Array[AudioStream]([ExtResource("2_m8lyy"), ExtResource("3_s2ocx")])
+pitchMin = 0.95
+pitchMax = 1.05

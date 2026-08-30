@@ -4,6 +4,8 @@
 [ext_resource type="Theme" uid="uid://bdp8nux7uxbd6" path="res://Themes/main_theme.tres" id="2_5pju7"]
 [ext_resource type="FontFile" uid="uid://cjqcchkbnk3yk" path="res://Fonts/I-pixel-u.ttf" id="3_v41ug"]
 [ext_resource type="Texture2D" uid="uid://dndb318kylgpd" path="res://Sprites/WhiteSquare.png" id="4_5pju7"]
+[ext_resource type="PackedScene" uid="uid://dt636766vy8q4" path="res://Prefabs/UI/cursor.tscn" id="4_x4fu1"]
+[ext_resource type="PackedScene" uid="uid://c4sy8aqxdflnh" path="res://Prefabs/UI/button_generic.tscn" id="5_eewt2"]
 
 [sub_resource type="Animation" id="Animation_v41ug"]
 length = 0.001
@@ -42,6 +44,7 @@ _data = {
 }
 
 [node name="GameCanvas" type="CanvasLayer" unique_id=795019234 node_paths=PackedStringArray("playerName", "scoreLabels")]
+process_mode = 3
 script = ExtResource("1_bj44r")
 playerName = [NodePath("Control/Scoreboard/PlayerTeam0A"), NodePath("Control/Scoreboard/PlayerTeam1A"), NodePath("Control/Scoreboard/PlayerTeam0B"), NodePath("Control/Scoreboard/PlayerTeam1B")]
 scoreLabels = [NodePath("Control/Scoreboard/ScoreTeam0"), NodePath("Control/Scoreboard/ScoreTeam1")]
@@ -163,6 +166,47 @@ offset_bottom = 40.0
 text = "END OF QUARTER"
 horizontal_alignment = 1
 
+[node name="Pause" type="Control" parent="Control" unique_id=1668026315]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Control/Pause" unique_id=1571342484]
+layout_mode = 0
+offset_top = 384.0
+offset_right = 1920.0
+offset_bottom = 424.0
+text = "GAME PAUSED"
+horizontal_alignment = 1
+
+[node name="Cursor" parent="Control/Pause" unique_id=821024305 instance=ExtResource("4_x4fu1")]
+layout_mode = 0
+offset_left = 688.0
+offset_top = 512.0
+offset_right = 728.0
+offset_bottom = 552.0
+
+[node name="ButtonGeneric" parent="Control/Pause" unique_id=398400624 instance=ExtResource("5_eewt2")]
+layout_mode = 0
+offset_left = 736.0
+offset_top = 512.0
+offset_right = 1192.0
+offset_bottom = 552.0
+focus_neighbor_bottom = NodePath("../ButtonGeneric2")
+text = "CONTINUE MATCH"
+
+[node name="ButtonGeneric2" parent="Control/Pause" unique_id=880238617 instance=ExtResource("5_eewt2")]
+layout_mode = 0
+offset_left = 736.0
+offset_top = 556.0
+offset_right = 1192.0
+offset_bottom = 596.0
+focus_neighbor_top = NodePath("../ButtonGeneric")
+text = "QUIT TO MENU"
+
 [node name="Fade" type="TextureRect" parent="Control" unique_id=1436646281]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
@@ -175,3 +219,6 @@ texture = ExtResource("4_5pju7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Fade" unique_id=1822769547]
 libraries/ = SubResource("AnimationLibrary_eewt2")
+
+[connection signal="pressed" from="Control/Pause/ButtonGeneric" to="." method="unpause"]
+[connection signal="pressed" from="Control/Pause/ButtonGeneric2" to="." method="pause_quit"]

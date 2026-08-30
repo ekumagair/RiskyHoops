@@ -24,6 +24,8 @@ var timeMin : int = 5
 var timeSec : int = 0
 var timeSecTenth : int = 9
 var quarter : int = 1
+var paused : bool = false
+var quitting : bool = false
 
 var characterPrefabs = {
 	-1: null,
@@ -41,8 +43,13 @@ var attackPrefabs = {
 }
 
 func _ready() -> void:
+	get_tree().paused = false
+	paused = false
+	quitting = false
+	
 	global.gManager = self
 	global.mainMenuFirstScreenOverride = "Main"
+	
 	get_characters()
 	
 	if len(songs) > 0:
@@ -231,6 +238,10 @@ func reduce_time():
 	if gameState != GameState.DEFAULT:
 		reduce_time()
 		return
+	while paused:
+		if gameState == GameState.ENDED:
+			return
+		await get_tree().process_frame
 	
 	if timeSecTenth > 0:
 		timeSecTenth -= 1

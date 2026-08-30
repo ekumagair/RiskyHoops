@@ -37,6 +37,9 @@ func _ready():
 	# Load saved data.
 	savedata.load_current_slot()
 	
+	# Set rendering.
+	RenderingServer.set_default_clear_color(Color(0, 0, 0))
+	
 	# Must wait at least one frame before changing scene.
 	await get_tree().process_frame
 	

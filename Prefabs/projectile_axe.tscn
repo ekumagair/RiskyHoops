@@ -50,6 +50,7 @@ _data = {
 
 [node name="Axe" unique_id=335571258 instance=ExtResource("1_ij1ib")]
 fallSpeed = 20.0
+impactSound = 4
 
 [node name="Main" parent="Model" parent_id_path=PackedInt32Array(1875427832) index="0" unique_id=2069579956]
 transform = Transform3D(0.99999946, 0, 0, 0, -4.371139e-08, -0.99999946, 0, 1, -4.3711363e-08, 0, 0, 0)

@@ -22,6 +22,7 @@ func _on_ball_area_entered(area: Area3D) -> void:
 	ball.global_position = Vector3(ballTarget.global_position.x, ballTarget.global_position.y - 0.1, ballTarget.global_position.z - 0.5)
 	
 	global.gManager.organize_to_basket(team)
+	audio.play_sound(Audio.Sound.IMPACT_CRUNCH, ballTarget.global_position)
 
 func _on_points_area_entered(body: Node3D) -> void:
 	var char : Character = body as Character
