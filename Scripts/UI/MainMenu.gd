@@ -8,6 +8,7 @@ extends UIMenu
 @onready var btnScoreGoal : Button = $Main/Input/VBoxContainer/Button3
 @onready var btnMusVol : Button = $Main/Input/VBoxContainer/Button4
 @onready var btnSfxVol : Button = $Main/Input/VBoxContainer/Button5
+@onready var btnQuit : Button = $Main/Input/VBoxContainer/Button6
 @onready var charSelectLabel : Label = $Chars/Input/MainLabel
 
 var mainScreen : UIScreen
@@ -24,6 +25,11 @@ func _ready() -> void:
 	mainScreen = get_screen("Main")
 	charsScreen = get_screen("Chars")
 	charsScreenFinishedRoot = charsScreen.get_node("OnFinished")
+	
+	if global.isWeb or global.isMobile:
+		btnQuit.hide()
+	else:
+		btnQuit.show()
 
 func _process(delta : float) -> void:
 	update_button_text()
