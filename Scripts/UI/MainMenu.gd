@@ -30,6 +30,9 @@ func _ready() -> void:
 		btnQuit.hide()
 	else:
 		btnQuit.show()
+	
+	if !btnQuit.visible:
+		btnSfxVol.focus_neighbor_bottom = NodePath("")
 
 func _process(delta : float) -> void:
 	update_button_text()

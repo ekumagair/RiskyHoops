@@ -340,7 +340,13 @@ func _on_ball_area_entered(area : Area3D) -> void:
 	hold_ball(area.get_parent())
 
 func hold_ball(ball : Ball):
-	if heldBall != null or ball.forbidCharacter == self or ball.held or ball.scoring or attacking or stunned:
+	if ball == null or heldBall != null or attacking or stunned:
+		return
+	if ball.forbidCharacter == self or ball.held or ball.scoring:
+		return
+	if global.gManager.gameState == GameManager.GameState.ENDED:
+		return
+	if global.gManager.gameState == GameManager.GameState.ORGANIZE and global.gManager.organizeType == GameManager.OrganizeType.QUARTER:
 		return
 	
 	ball.held = true
@@ -445,8 +451,8 @@ func attack_projectile():
 			dir.y = 0
 			dir.z = 0
 		GameConstants.Attacks.AXE:
-			speed = 6
-			dir.y = 1.33
+			speed = 8
+			dir.y = 1.1
 			dir.z *= 1 if charDirectionPressed.z > 0.0 else 0
 	
 	var instance = global.gManager.get_attack_prefab(attackPrefab).instantiate()
@@ -508,7 +514,7 @@ func stun():
 	audio.play_sound(Audio.Sound.IMPACT_DIRT, global_position)
 	
 	if heldBall != null:
-		var force : Vector3 = Vector3(randf_range(-10, 10), randf_range(10, 12), randf_range(-10, 10))
+		var force : Vector3 = Vector3(randf_range(-10, 10), randf_range(3, 6), randf_range(-10, 10))
 		release_ball(force)
 	
 	velocity = Vector3(0, 6, 0)

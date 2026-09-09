@@ -3,6 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://vy75kaj4ln4o" path="res://Prefabs/projectile.tscn" id="1_ij1ib"]
 [ext_resource type="Material" uid="uid://cwkikie6o3gbq" path="res://Sprites/Objects/Axe/tres/RiskyWoodsAxe.tres" id="2_nu8hk"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_nu8hk"]
+size = Vector3(0.9, 0.9, 0.9)
+
 [sub_resource type="PlaneMesh" id="PlaneMesh_55h2o"]
 size = Vector2(1.333, 1.333)
 
@@ -51,6 +54,9 @@ _data = {
 [node name="Axe" unique_id=335571258 instance=ExtResource("1_ij1ib")]
 fallSpeed = 20.0
 impactSound = 4
+
+[node name="CollisionShape3D" parent="Area3D" parent_id_path=PackedInt32Array(1546212208) index="0" unique_id=345934232]
+shape = SubResource("BoxShape3D_nu8hk")
 
 [node name="Main" parent="Model" parent_id_path=PackedInt32Array(1875427832) index="0" unique_id=2069579956]
 transform = Transform3D(0.99999946, 0, 0, 0, -4.371139e-08, -0.99999946, 0, 1, -4.3711363e-08, 0, 0, 0)

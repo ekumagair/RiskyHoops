@@ -16,7 +16,16 @@ enum GameState
 	ENDED
 }
 
+enum OrganizeType
+{
+	DEFAULT,
+	START,
+	BASKET,
+	QUARTER
+}
+
 var gameState : GameState = GameState.ORGANIZE
+var organizeType : OrganizeType = OrganizeType.DEFAULT
 var characters : Array[Node]
 var charPosLimit : Vector3 = Vector3(13, 100, 7)
 var score : Array[int]
@@ -63,6 +72,7 @@ func _ready() -> void:
 	config_rules()
 	reduce_time()
 	
+	organizeType = OrganizeType.START
 	organize_to_center()
 
 func _process(delta : float) -> void:
@@ -109,6 +119,9 @@ func organize_to(pos : Array[Vector3]) -> void:
 func organize_to_center():
 	get_characters()
 	
+	if len(characters) < 1:
+		return
+	
 	var pos : Array[Vector3]
 	pos.clear()
 	pos.append(Vector3(-3, 0, -3))
@@ -124,7 +137,11 @@ func organize_to_center():
 	organize_to(pos)
 
 func organize_to_basket(team : int):
+	organizeType = OrganizeType.BASKET
 	get_characters()
+	
+	if len(characters) < 1:
+		return
 	
 	var basket : Basket = get_basket(team)
 	var pos : Array[Vector3]
@@ -204,11 +221,15 @@ func release_ball(ball : Ball) -> void:
 	ball.holderPrev = null
 	ball.forbidCharacter = null
 
-func teleport_ball_to(pos : Vector3) -> void:
+func teleport_ball_to(pos : Vector3, killVelocity : bool) -> void:
 	var ball : Ball = global.gManager.ball
 	
 	release_ball(ball)
 	ball.set_deferred("global_position", pos)
+	
+	if killVelocity:
+		ball.velocity = Vector3(0, 0, 0)
+		ball.set_deferred("velocity", Vector3(0, 0, 0))
 
 func all_characters_reached_target() -> bool:
 	for i in len(characters):
@@ -269,8 +290,9 @@ func end_quarter():
 		return
 	
 	quarter += 1
+	organizeType = OrganizeType.QUARTER
 	organize_to_center()
-	teleport_ball_to(Vector3(0, 0.4, 0))
+	teleport_ball_to(Vector3(0, 0.4, 0), true)
 	
 	if quarter <= 4:
 		global.gCanvas.organizeLabel.text = "END OF QUARTER"
@@ -286,6 +308,7 @@ func end_match():
 		return
 	
 	gameState = GameState.ENDED
+	organizeType = OrganizeType.DEFAULT
 	global.gCanvas.organizeLabel.text = "END OF MATCH"
 	global.gManager.cancel_character_targets()
 	global.gManager.get_characters()

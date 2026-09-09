@@ -19,7 +19,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(0, 0, 0, 1)]
+"values": [Color(0, 0, 0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_x4fu1"]
@@ -56,6 +56,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("2_5pju7")
 
 [node name="Scoreboard" type="Control" parent="Control" unique_id=440915771]
@@ -64,6 +65,7 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 192.0
 grow_horizontal = 2
+mouse_filter = 2
 
 [node name="PlayerTeam0A" type="Label" parent="Control/Scoreboard" unique_id=633912818]
 layout_mode = 0
@@ -158,6 +160,7 @@ anchors_preset = 0
 offset_top = 768.0
 offset_right = 1920.0
 offset_bottom = 896.0
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Control/Organize" unique_id=864691717]
 layout_mode = 0
@@ -173,6 +176,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Control/Pause" unique_id=1571342484]
 layout_mode = 0
@@ -208,13 +212,14 @@ focus_neighbor_top = NodePath("../ButtonGeneric")
 text = "QUIT TO MENU"
 
 [node name="Fade" type="TextureRect" parent="Control" unique_id=1436646281]
-modulate = Color(0, 0, 0, 1)
+modulate = Color(0, 0, 0, 0)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = ExtResource("4_5pju7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Control/Fade" unique_id=1822769547]

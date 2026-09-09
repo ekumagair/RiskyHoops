@@ -47,6 +47,7 @@ _data = {
 texture_filter = 1
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 texture = ExtResource("1_u00cm")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=74738887]

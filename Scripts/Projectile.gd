@@ -34,6 +34,9 @@ func is_on_floor():
 	return global_position.y <= 0.0
 
 func process_auto_delete() -> void:
+	if global.gManager.gameState == GameManager.GameState.ORGANIZE:
+		queue_free()
+	
 	if velocity.x > 0 and global_position.x > global.gManager.charPosLimit.x * 2:
 		queue_free()
 	elif velocity.x < 0 and global_position.x < global.gManager.charPosLimit.x * -2:

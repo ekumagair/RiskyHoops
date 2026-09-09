@@ -89,6 +89,9 @@ func horizontal_velocity(delta : float):
 		velocity.z = 0
 
 func horizontal_bounce(delta : float):
+	if scoring:
+		return
+	
 	if is_touching_wall() and (velocity.x != 0 or velocity.z != 0):
 		translate(Vector3(-0.2 * ballDirection.x, 0, -0.2 * ballDirection.z))
 		
